@@ -26,7 +26,6 @@ public class MentorServiceImpl implements MentorService {
     @Override
     public Mentor updateMentorsById(Mentor mentor, Long mentorId) {
         Mentor mentorToUpdate = getMentorsById(mentorId);
-        mentorToUpdate.setMentorId(mentor.getMentorId());
         mentorToUpdate.setFirstName(mentor.getFirstName());
         mentorToUpdate.setLastName(mentor.getFirstName());
         mentorToUpdate.setEmail(mentor.getEmail());

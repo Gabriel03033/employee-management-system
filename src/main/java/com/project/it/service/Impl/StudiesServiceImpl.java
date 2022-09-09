@@ -27,7 +27,6 @@ public class StudiesServiceImpl implements StudiesService {
     @Override
     public Studies updateStudiesById(Studies studies, Long studiesId) {
         Studies studiesToUpdate = getStudiesById(studiesId);
-        studiesToUpdate.setStudiesId(studies.getStudiesId());
         studiesToUpdate.setUniversity(studies.getUniversity());
         studiesToUpdate.setFaculty(studies.getFaculty());
         studiesToUpdate.setMajor(studies.getMajor());
