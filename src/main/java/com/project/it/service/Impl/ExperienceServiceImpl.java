@@ -37,7 +37,7 @@ public class ExperienceServiceImpl implements ExperienceService {
         experienceToUpdate.setExperienceType(experience.getExperienceType());
         experienceToUpdate.setStartedAt(experience.getStartedAt());
         experienceToUpdate.setFinishedAt(experience.getFinishedAt());
-        return experienceRepository.save(experience);
+        return experienceRepository.save(experienceToUpdate);
     }
 
     @Override

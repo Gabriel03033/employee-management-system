@@ -35,7 +35,7 @@ public class StudiesServiceImpl implements StudiesService {
         studiesToUpdate.setUniversity(studies.getUniversity());
         studiesToUpdate.setFaculty(studies.getFaculty());
         studiesToUpdate.setMajor(studies.getMajor());
-        return studiesRepository.save(studies);
+        return studiesRepository.save(studiesToUpdate);
     }
 
     @Override

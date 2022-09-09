@@ -35,7 +35,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedbackToUpdate.setFeedbackType(feedback.getFeedbackType());
         feedbackToUpdate.setDescription(feedback.getDescription());
         feedbackToUpdate.setUser(feedback.getUser());
-        return feedbackRepository.save(feedback);
+        return feedbackRepository.save(feedbackToUpdate);
     }
 
     @Override

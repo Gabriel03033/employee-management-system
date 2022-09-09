@@ -33,7 +33,7 @@ public class RoleServiceImpl implements RoleService {
     public Role updateRoleById(Role role, Long roleId) {
         Role roleToUpdate = getRoleById(roleId);
         roleToUpdate.setName(role.getName());
-        return roleRepository.save(role);
+        return roleRepository.save(roleToUpdate);
     }
 
     @Override

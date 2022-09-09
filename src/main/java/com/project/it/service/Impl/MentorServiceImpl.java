@@ -40,7 +40,7 @@ public class MentorServiceImpl implements MentorService {
         mentorToUpdate.setBirthday(mentor.getBirthday());
         mentorToUpdate.setAvailable(mentor.getAvailable());
         mentorToUpdate.setNumberOfEmployees(mentor.getNumberOfEmployees());
-        return mentorRepository.save(mentor);
+        return mentorRepository.save(mentorToUpdate);
     }
 
     @Override

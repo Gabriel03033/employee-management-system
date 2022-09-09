@@ -45,7 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setMentor(employee.getMentor());
         employee.setStudies(employee.getStudies());
         employee.setExperiences(employee.getExperiences());
-        return employeeRepository.save(employee);
+        return employeeRepository.save(employeeToUpdate);
     }
 
     @Override

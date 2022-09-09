@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
         userToUpdate.setAddress(user.getAddress());
         userToUpdate.setBirthday(user.getBirthday());
         userToUpdate.setRole(user.getRole());
-        return userRepository.save(user);
+        return userRepository.save(userToUpdate);
     }
 
     @Override
