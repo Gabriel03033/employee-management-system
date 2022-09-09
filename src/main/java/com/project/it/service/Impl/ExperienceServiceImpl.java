@@ -9,23 +9,28 @@ public class ExperienceServiceImpl implements ExperienceService {
 
     private final ExperienceRepository experienceRepository;
 
-    public ExperienceServiceImpl(ExperienceRepository experienceRepository) { this.experienceRepository = experienceRepository;}
+    public ExperienceServiceImpl(ExperienceRepository experienceRepository) {
+        this.experienceRepository = experienceRepository;
+    }
 
     @Override
-    public List<Experience> getAllExperiences() { return experienceRepository.findAll();}
+    public List<Experience> getAllExperiences() {
+        return experienceRepository.findAll();
+    }
 
     @Override
-    public Experience getExperiencesById(Long experienceId) {
-        return experienceRepository.findById(experienceId).orElseThrow(() -> new RuntimeException("No experiences found with id: " + experienceId));}
+    public Experience getExperienceById(Long experienceId) {
+        return experienceRepository.findById(experienceId).orElseThrow(() -> new RuntimeException("No experiences found with id: " + experienceId));
+    }
 
     @Override
-    public Experience saveExperiences(Experience experience) {
+    public Experience saveExperience(Experience experience) {
         return experienceRepository.save(experience);
     }
 
     @Override
-    public Experience updateExperiencesById(Experience experience, Long experienceId) {
-        Experience experienceToUpdate = getExperiencesById(experienceId);
+    public Experience updateExperienceById(Experience experience, Long experienceId) {
+        Experience experienceToUpdate = getExperienceById(experienceId);
         experienceToUpdate.setTitle(experience.getTitle());
         experienceToUpdate.setOrganization(experience.getOrganization());
         experienceToUpdate.setDescription(experience.getDescription());
@@ -36,7 +41,7 @@ public class ExperienceServiceImpl implements ExperienceService {
     }
 
     @Override
-    public void deleteExperiencesById(Long experienceId) {
+    public void deleteExperienceById(Long experienceId) {
 
     }
 }

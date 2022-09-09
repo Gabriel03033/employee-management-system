@@ -10,14 +10,19 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
 
 
-    public RoleServiceImpl(RoleRepository roleRepository) { this.roleRepository = roleRepository;}
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
     @Override
-    public List<Role> getAllRoles() {return roleRepository.findAll();}
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
+    }
 
     @Override
     public Role getRoleById(Long rolesId) {
-        return roleRepository.findById(rolesId).orElseThrow(() -> new RuntimeException("No role found with id: " + rolesId));}
+        return roleRepository.findById(rolesId).orElseThrow(() -> new RuntimeException("No role found with id: " + rolesId));
+    }
 
     @Override
     public Role saveRole(Role role) {

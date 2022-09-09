@@ -5,8 +5,12 @@ import java.util.List;
 
 public interface ExperienceService {
     List<Experience> getAllExperiences();
-    Experience getExperiencesById(Long experienceId);
-    Experience saveExperiences(Experience experience);
-    Experience updateExperiencesById(Experience experience, Long experienceId);
-    void deleteExperiencesById(Long experienceId);
+
+    Experience getExperienceById(Long experienceId);
+
+    Experience saveExperience(Experience experience);
+
+    Experience updateExperienceById(Experience experience, Long experienceId);
+
+    void deleteExperienceById(Long experienceId);
 }

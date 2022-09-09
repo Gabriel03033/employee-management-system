@@ -10,14 +10,19 @@ public class StudiesServiceImpl implements StudiesService {
     private final StudiesRepository studiesRepository;
 
 
-    public StudiesServiceImpl(StudiesRepository studiesRepository) { this.studiesRepository = studiesRepository;}
+    public StudiesServiceImpl(StudiesRepository studiesRepository) {
+        this.studiesRepository = studiesRepository;
+    }
 
     @Override
-    public List<Studies> getAllStudies() { return studiesRepository.findAll();}
+    public List<Studies> getAllStudies() {
+        return studiesRepository.findAll();
+    }
 
     @Override
     public Studies getStudiesById(Long studiesId) {
-        return studiesRepository.findById(studiesId).orElseThrow(() -> new RuntimeException("No studies found with id: " + studiesId));}
+        return studiesRepository.findById(studiesId).orElseThrow(() -> new RuntimeException("No studies found with id: " + studiesId));
+    }
 
     @Override
     public Studies saveStudies(Studies studies) {

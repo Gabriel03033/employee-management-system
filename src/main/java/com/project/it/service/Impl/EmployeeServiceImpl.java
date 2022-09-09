@@ -9,25 +9,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) { this.employeeRepository = employeeRepository;}
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
 
 
     @Override
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();}
+        return employeeRepository.findAll();
+    }
 
     @Override
-    public Employee getEmployeesById(Long employeeId) {
-        return employeeRepository.findById(employeeId).orElseThrow(() -> new RuntimeException("No employees foud with id: " + employeeId));}
+    public Employee getEmployeeById(Long employeeId) {
+        return employeeRepository.findById(employeeId).orElseThrow(() -> new RuntimeException("No employees found with id: " + employeeId));
+    }
 
     @Override
-    public Employee saveEmplyees(Employee employee) {
+    public Employee saveEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
     @Override
-    public Employee updateEmployeesById(Employee employee, Long employeeId) {
-        Employee employeeToUpdate = getEmployeesById(employeeId);
+    public Employee updateEmployeeById(Employee employee, Long employeeId) {
+        Employee employeeToUpdate = getEmployeeById(employeeId);
         employeeToUpdate.setFirstName(employee.getFirstName());
         employee.setLastName(employee.getLastName());
         employee.setEmail(employee.getEmail());
@@ -45,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteEmployeesById(Long employeeId) {
-
+    public void deleteEmployeeById(Long employeeId) {
+        employeeRepository.deleteById(employeeId);
     }
 }

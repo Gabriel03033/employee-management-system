@@ -9,23 +9,28 @@ public class MentorServiceImpl implements MentorService {
 
     private final MentorRepository mentorRepository;
 
-    public MentorServiceImpl(MentorRepository mentorRepository) { this.mentorRepository = mentorRepository;}
+    public MentorServiceImpl(MentorRepository mentorRepository) {
+        this.mentorRepository = mentorRepository;
+    }
 
     @Override
-    public List<Mentor> getAllMentors() { return mentorRepository.findAll();}
+    public List<Mentor> getAllMentors() {
+        return mentorRepository.findAll();
+    }
 
     @Override
-    public Mentor getMentorsById(Long mentorId) {
-        return mentorRepository.findById(mentorId).orElseThrow(() -> new RuntimeException("No mentors found with id: " + mentorId));}
+    public Mentor getMentorById(Long mentorId) {
+        return mentorRepository.findById(mentorId).orElseThrow(() -> new RuntimeException("No mentors found with id: " + mentorId));
+    }
 
     @Override
-    public Mentor saveMentors(Mentor mentor) {
+    public Mentor saveMentor(Mentor mentor) {
         return mentorRepository.save(mentor);
     }
 
     @Override
-    public Mentor updateMentorsById(Mentor mentor, Long mentorId) {
-        Mentor mentorToUpdate = getMentorsById(mentorId);
+    public Mentor updateMentorById(Mentor mentor, Long mentorId) {
+        Mentor mentorToUpdate = getMentorById(mentorId);
         mentorToUpdate.setFirstName(mentor.getFirstName());
         mentorToUpdate.setLastName(mentor.getFirstName());
         mentorToUpdate.setEmail(mentor.getEmail());
@@ -39,7 +44,7 @@ public class MentorServiceImpl implements MentorService {
     }
 
     @Override
-    public void deleteMentorsById(Long mentorId) {
+    public void deleteMentorById(Long mentorId) {
         mentorRepository.deleteById(mentorId);
     }
 }

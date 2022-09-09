@@ -5,8 +5,12 @@ import java.util.List;
 
 public interface FeedbackService {
     List<Feedback> getAllFeedbacks();
-    Feedback getFeedbacksById(Long feedbackId);
-    Feedback saveFeedbacks(Feedback feedback);
-    Feedback updateFeedbacksById(Feedback feedback, Long feedbackId);
-    void deleteFeedbacksById(Long feedbackId);
+
+    Feedback getFeedbackById(Long feedbackId);
+
+    Feedback saveFeedback(Feedback feedback);
+
+    Feedback updateFeedbackById(Feedback feedback, Long feedbackId);
+
+    void deleteFeedbackById(Long feedbackId);
 }

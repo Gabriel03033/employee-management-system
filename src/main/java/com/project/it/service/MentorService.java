@@ -5,8 +5,12 @@ import java.util.List;
 
 public interface MentorService {
     List<Mentor> getAllMentors();
-    Mentor getMentorsById(Long mentorId);
-    Mentor saveMentors(Mentor mentor);
-    Mentor updateMentorsById(Mentor mentor, Long mentorId);
-    void deleteMentorsById(Long mentorId);
+
+    Mentor getMentorById(Long mentorId);
+
+    Mentor saveMentor(Mentor mentor);
+
+    Mentor updateMentorById(Mentor mentor, Long mentorId);
+
+    void deleteMentorById(Long mentorId);
 }

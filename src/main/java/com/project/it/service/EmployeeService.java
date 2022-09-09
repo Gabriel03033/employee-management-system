@@ -5,8 +5,12 @@ import java.util.List;
 
 public interface EmployeeService {
     List<Employee> getAllEmployees();
-    Employee getEmployeesById(Long employeeId);
-    Employee saveEmplyees(Employee employee);
-    Employee updateEmployeesById(Employee employee, Long employeeId);
-    void deleteEmployeesById(Long employeeId);
+
+    Employee getEmployeeById(Long employeeId);
+
+    Employee saveEmployee(Employee employee);
+
+    Employee updateEmployeeById(Employee employee, Long employeeId);
+
+    void deleteEmployeeById(Long employeeId);
 }
