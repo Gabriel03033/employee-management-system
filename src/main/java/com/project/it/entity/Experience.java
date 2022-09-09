@@ -2,6 +2,7 @@ package com.project.it.entity;
 
 import com.project.it.enums.ExperienceType;
 import java.time.LocalDate;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,5 +33,22 @@ public class Experience {
     private LocalDate startedAt;
     private LocalDate finishedAt;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Experience that = (Experience) o;
+        return experienceId.equals(that.experienceId) &&
+                title.equals(that.title) &&
+                organization.equals(that.organization) &&
+                description.equals(that.description) &&
+                experienceType == that.experienceType &&
+                startedAt.equals(that.startedAt) &&
+                finishedAt.equals(that.finishedAt);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(experienceId, title, organization, description, experienceType, startedAt, finishedAt);
+    }
 }
