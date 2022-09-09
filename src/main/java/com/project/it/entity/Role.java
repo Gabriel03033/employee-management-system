@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Builder
+//@Builder
 @Entity
 @Table(name = "roles")
 public class Role {
