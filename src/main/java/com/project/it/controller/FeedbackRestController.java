@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/feedback")
+@RequestMapping("/feedbacks")
 public class FeedbackRestController {
 
     private final FeedbackService feedbackService;
@@ -27,7 +27,7 @@ public class FeedbackRestController {
         return feedbackService.getAllFeedbacks();
     }
 
-    @GetMapping("/{feedbackId")
+    @GetMapping("/{feedbackId}")
     public Feedback getFeedbackById(@PathVariable Long feedbackId) {
         return feedbackService.getFeedbackById(feedbackId);
     }
@@ -37,12 +37,12 @@ public class FeedbackRestController {
         return feedbackService.saveFeedback(feedback);
     }
 
-    @PutMapping("/{feedbackId")
+    @PutMapping("/{feedbackId}")
     public Feedback updateFeedbackById(@RequestBody Feedback feedback, @PathVariable Long feedbackId) {
         return feedbackService.updateFeedbackById(feedback, feedbackId);
     }
 
-    @DeleteMapping("/{feedback}")
+    @DeleteMapping("/{feedbackId}")
     public void deleteFeedbackById(@PathVariable Long feedbackId) {
         feedbackService.deleteFeedbackById(feedbackId);
     }

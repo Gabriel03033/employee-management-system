@@ -13,20 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("employee")
+@RequestMapping("/employees")
 public class EmployeeRestController {
 
     private final EmployeeService employeeService;
-
 
     public EmployeeRestController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
     @GetMapping
-    public List<Employee> getAllEmployee() { return employeeService.getAllEmployees(); }
+    public List<Employee> getAllEmployee() {
+        return employeeService.getAllEmployees();
+    }
 
-    @GetMapping("/{employeeId")
+    @GetMapping("/{employeeId}")
     public Employee getEmployeeById(@PathVariable Long employeeId) {
         return employeeService.getEmployeeById(employeeId);
     }
@@ -36,12 +37,12 @@ public class EmployeeRestController {
         return employeeService.saveEmployee(employee);
     }
 
-    @PutMapping("/{employeeId")
+    @PutMapping("/{employeeId}")
     public Employee updateEmployeeById(@RequestBody Employee employee, @PathVariable Long employeeId) {
         return employeeService.updateEmployeeById(employee, employeeId);
     }
 
-    @DeleteMapping("/{employeeId")
+    @DeleteMapping("/{employeeId}")
     public void deleteEmployeeById(@PathVariable Long employeeId) {
         employeeService.deleteEmployeeById(employeeId);
     }

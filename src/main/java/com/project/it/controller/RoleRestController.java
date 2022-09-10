@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/roles")
 public class RoleRestController {
 
     private final RoleService roleService;
@@ -28,7 +28,7 @@ public class RoleRestController {
         return roleService.getAllRoles();
     }
 
-    @GetMapping("/{roleId")
+    @GetMapping("/{roleId}")
     public Role getRoleById(@PathVariable Long roleId) {
         return roleService.getRoleById(roleId);
     }

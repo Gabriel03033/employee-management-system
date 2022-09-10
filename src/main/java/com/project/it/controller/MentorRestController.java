@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/mentor")
+@RequestMapping("/mentors")
 public class MentorRestController {
 
     private final MentorService mentorService;
@@ -25,7 +25,7 @@ public class MentorRestController {
     @GetMapping
     public List<Mentor> getAllMentors() { return mentorService.getAllMentors(); }
 
-    @GetMapping("/{mentorId")
+    @GetMapping("/{mentorId}")
     public Mentor getMentorById(@PathVariable Long mentorId) {
         return mentorService.getMentorById(mentorId);
     }
@@ -35,12 +35,12 @@ public class MentorRestController {
         return mentorService.saveMentor(mentor);
     }
 
-    @PutMapping("/{mentorId")
+    @PutMapping("/{mentorId}")
     public Mentor updateMentorById(@RequestBody Mentor mentor, @PathVariable Long mentorId) {
         return mentorService.updateMentorById(mentor, mentorId);
     }
 
-    @DeleteMapping("/{mentorId")
+    @DeleteMapping("/{mentorId}")
     public void deleteMentorById(@PathVariable Long mentorId) {
         mentorService.deleteMentorById(mentorId);
     }

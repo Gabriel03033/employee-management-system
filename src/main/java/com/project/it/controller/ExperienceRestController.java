@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("experience")
+@RequestMapping("/experiences")
 public class ExperienceRestController {
 
     private final ExperienceService experienceService;
@@ -27,7 +27,7 @@ public class ExperienceRestController {
         return experienceService.getAllExperiences();
     }
 
-    @GetMapping("/{experienceId")
+    @GetMapping("/{experienceId}")
     public Experience getExperienceById(@PathVariable Long experienceId) {
         return experienceService.getExperienceById(experienceId);
     }
@@ -37,12 +37,12 @@ public class ExperienceRestController {
         return experienceService.saveExperience(experience);
     }
 
-    @PutMapping("/{experienceId")
+    @PutMapping("/{experienceId}")
     public Experience updateExperienceById(@RequestBody Experience experience, @PathVariable Long experienceId) {
         return experienceService.updateExperienceById(experience, experienceId);
     }
 
-    @DeleteMapping("/{experienceId")
+    @DeleteMapping("/{experienceId}")
     public void deleteExperienceById(@PathVariable Long experienceId) {
         experienceService.deleteExperienceById(experienceId);
     }
