@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/experiences")
+@RequestMapping("/api/experiences")
 public class ExperienceRestController {
 
     private final ExperienceService experienceService;

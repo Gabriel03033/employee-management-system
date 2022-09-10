@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/api/employees")
 public class EmployeeRestController {
 
     private final EmployeeService employeeService;
