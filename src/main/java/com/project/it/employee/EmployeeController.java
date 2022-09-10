@@ -21,4 +21,10 @@ public class EmployeeController {
         model.addAttribute("employees", employeeService.getAllEmployees());
         return "employees";
     }
+
+    @GetMapping("/save-employee")
+    public String viewSaveEmployeeFormPage(Model model) {
+        model.addAttribute("employee", new Employee());
+        return "save-employee";
+    }
 }
