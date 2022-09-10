@@ -26,8 +26,7 @@ public class Mentor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mentorId;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
     private String password;
     private String mobile;
@@ -42,8 +41,7 @@ public class Mentor {
         if (o == null || getClass() != o.getClass()) return false;
         Mentor mentor = (Mentor) o;
         return mentorId.equals(mentor.mentorId) &&
-                firstName.equals(mentor.firstName) &&
-                lastName.equals(mentor.lastName) &&
+                name.equals(mentor.name) &&
                 email.equals(mentor.email) &&
                 password.equals(mentor.password) &&
                 mobile.equals(mentor.mobile) &&
@@ -55,6 +53,6 @@ public class Mentor {
 
     @Override
     public int hashCode() {
-        return Objects.hash(mentorId, firstName, lastName, email, password, mobile, address, birthday, available, numberOfEmployees);
+        return Objects.hash(mentorId, name, email, password, mobile, address, birthday, available, numberOfEmployees);
     }
 }

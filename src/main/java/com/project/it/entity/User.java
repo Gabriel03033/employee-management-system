@@ -28,8 +28,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
     private String password;
     private String mobile;
@@ -45,8 +44,7 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return userId.equals(user.userId) &&
-                firstName.equals(user.firstName) &&
-                lastName.equals(user.lastName) &&
+                name.equals(user.name) &&
                 email.equals(user.email) &&
                 password.equals(user.password) &&
                 mobile.equals(user.mobile) &&
@@ -56,6 +54,6 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, firstName, lastName, email, password, mobile, address, birthday);
+        return Objects.hash(userId, name, email, password, mobile, address, birthday);
     }
 }

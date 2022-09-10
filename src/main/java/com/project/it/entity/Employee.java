@@ -36,8 +36,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employeeId;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
     private String password;
     private String mobile;
@@ -70,8 +69,7 @@ public class Employee {
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
         return employeeId.equals(employee.employeeId) &&
-                firstName.equals(employee.firstName) &&
-                lastName.equals(employee.lastName) &&
+                name.equals(employee.name) &&
                 email.equals(employee.email) &&
                 password.equals(employee.password) &&
                 mobile.equals(employee.mobile) &&
@@ -87,6 +85,6 @@ public class Employee {
 
     @Override
     public int hashCode() {
-        return Objects.hash(employeeId, firstName, lastName, email, password, mobile, address, birthday, employeeType, position, grade, mentor, studies, experiences);
+        return Objects.hash(employeeId, name, email, password, mobile, address, birthday, employeeType, position, grade, mentor, studies, experiences);
     }
 }
