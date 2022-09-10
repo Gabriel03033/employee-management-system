@@ -1,6 +1,8 @@
 package com.project.it.feedback;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,27 +23,28 @@ public class FeedbackRestController {
     }
 
     @GetMapping
-    public List<Feedback> getAllFeedbacks(Long feedbackId) {
-        return feedbackService.getAllFeedbacks();
+    public ResponseEntity<List<Feedback>> getAllFeedbacks(Long feedbackId) {
+        return new ResponseEntity<>(feedbackService.getAllFeedbacks(), HttpStatus.OK);
     }
 
     @GetMapping("/{feedbackId}")
-    public Feedback getFeedbackById(@PathVariable Long feedbackId) {
-        return feedbackService.getFeedbackById(feedbackId);
+    public ResponseEntity<Feedback> getFeedbackById(@PathVariable Long feedbackId) {
+        return new ResponseEntity<>(feedbackService.getFeedbackById(feedbackId), HttpStatus.OK);
     }
 
     @PostMapping
-    public Feedback saveFeedback(@RequestBody Feedback feedback) {
-        return feedbackService.saveFeedback(feedback);
+    public ResponseEntity<Feedback> saveFeedback(@RequestBody Feedback feedback) {
+        return new ResponseEntity<>(feedbackService.saveFeedback(feedback), HttpStatus.CREATED);
     }
 
     @PutMapping("/{feedbackId}")
-    public Feedback updateFeedbackById(@RequestBody Feedback feedback, @PathVariable Long feedbackId) {
-        return feedbackService.updateFeedbackById(feedback, feedbackId);
+    public ResponseEntity<Feedback> updateFeedbackById(@RequestBody Feedback feedback, @PathVariable Long feedbackId) {
+        return new ResponseEntity<>(feedbackService.updateFeedbackById(feedback, feedbackId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{feedbackId}")
-    public void deleteFeedbackById(@PathVariable Long feedbackId) {
+    public ResponseEntity<String> deleteFeedbackById(@PathVariable Long feedbackId) {
         feedbackService.deleteFeedbackById(feedbackId);
+        return new ResponseEntity<>("Feedback deleted successfully", HttpStatus.NO_CONTENT);
     }
 }

@@ -1,6 +1,8 @@
 package com.project.it.experience;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,27 +23,28 @@ public class ExperienceRestController {
     }
 
     @GetMapping
-    public List<Experience> getAllExperiences() {
-        return experienceService.getAllExperiences();
+    public ResponseEntity<List<Experience>> getAllExperiences() {
+        return new ResponseEntity<>(experienceService.getAllExperiences(), HttpStatus.OK);
     }
 
     @GetMapping("/{experienceId}")
-    public Experience getExperienceById(@PathVariable Long experienceId) {
-        return experienceService.getExperienceById(experienceId);
+    public ResponseEntity<Experience> getExperienceById(@PathVariable Long experienceId) {
+        return new ResponseEntity<>(experienceService.getExperienceById(experienceId), HttpStatus.OK);
     }
 
     @PostMapping
-    public Experience saveExperience(@RequestBody Experience experience) {
-        return experienceService.saveExperience(experience);
+    public ResponseEntity<Experience> saveExperience(@RequestBody Experience experience) {
+        return new ResponseEntity<>(experienceService.saveExperience(experience), HttpStatus.CREATED);
     }
 
     @PutMapping("/{experienceId}")
-    public Experience updateExperienceById(@RequestBody Experience experience, @PathVariable Long experienceId) {
-        return experienceService.updateExperienceById(experience, experienceId);
+    public ResponseEntity<Experience> updateExperienceById(@RequestBody Experience experience, @PathVariable Long experienceId) {
+        return new ResponseEntity<>(experienceService.updateExperienceById(experience, experienceId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{experienceId}")
-    public void deleteExperienceById(@PathVariable Long experienceId) {
+    public ResponseEntity<String> deleteExperienceById(@PathVariable Long experienceId) {
         experienceService.deleteExperienceById(experienceId);
+        return new ResponseEntity<>("Experience deleted successfully", HttpStatus.NO_CONTENT);
     }
 }

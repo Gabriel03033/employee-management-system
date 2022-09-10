@@ -1,6 +1,8 @@
 package com.project.it.studies;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,28 +23,29 @@ public class StudiesRestController {
     }
 
     @GetMapping
-    public List<Studies> getAllStudies() {
-        return studiesService.getAllStudies();
+    public ResponseEntity<List<Studies>> getAllStudies() {
+        return new ResponseEntity<>(studiesService.getAllStudies(), HttpStatus.OK);
     }
 
     @GetMapping("/{studiesId}")
-    public Studies getStudiesById(@PathVariable Long studiesId) {
-        return studiesService.getStudiesById(studiesId);
+    public ResponseEntity<Studies> getStudiesById(@PathVariable Long studiesId) {
+        return new ResponseEntity<>(studiesService.getStudiesById(studiesId), HttpStatus.OK);
     }
 
     @PostMapping
-    public Studies saveStudies(@RequestBody Studies studies) {
-        return studiesService.saveStudies(studies);
+    public ResponseEntity<Studies> saveStudies(@RequestBody Studies studies) {
+        return new ResponseEntity<>(studiesService.saveStudies(studies), HttpStatus.CREATED);
     }
 
     @PutMapping("/{studiesId}")
-    public Studies updateStudiesById(@RequestBody Studies studies, @PathVariable Long studiesId) {
-        return studiesService.updateStudiesById(studies, studiesId);
+    public ResponseEntity<Studies> updateStudiesById(@RequestBody Studies studies, @PathVariable Long studiesId) {
+        return new ResponseEntity<>(studiesService.updateStudiesById(studies, studiesId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{studiesId}")
-    public void deleteUserById(@PathVariable Long studiesId) {
+    public ResponseEntity<String> deleteUserById(@PathVariable Long studiesId) {
         studiesService.deleteStudiesById(studiesId);
+        return new ResponseEntity<>("Studies deleted successfully", HttpStatus.NO_CONTENT);
     }
 
 }

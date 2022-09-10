@@ -1,6 +1,8 @@
 package com.project.it.employee;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,27 +23,28 @@ public class EmployeeRestController {
     }
 
     @GetMapping
-    public List<Employee> getAllEmployee() {
-        return employeeService.getAllEmployees();
+    public ResponseEntity<List<Employee>> getAllEmployees() {
+        return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
     }
 
     @GetMapping("/{employeeId}")
-    public Employee getEmployeeById(@PathVariable Long employeeId) {
-        return employeeService.getEmployeeById(employeeId);
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long employeeId) {
+        return new ResponseEntity<>(employeeService.getEmployeeById(employeeId), HttpStatus.OK);
     }
 
     @PostMapping
-    public Employee saveEmployee(@RequestBody Employee employee) {
-        return employeeService.saveEmployee(employee);
+    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
+        return new ResponseEntity<>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
     }
 
     @PutMapping("/{employeeId}")
-    public Employee updateEmployeeById(@RequestBody Employee employee, @PathVariable Long employeeId) {
-        return employeeService.updateEmployeeById(employee, employeeId);
+    public ResponseEntity<Employee> updateEmployeeById(@RequestBody Employee employee, @PathVariable Long employeeId) {
+        return new ResponseEntity<>(employeeService.updateEmployeeById(employee, employeeId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{employeeId}")
-    public void deleteEmployeeById(@PathVariable Long employeeId) {
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable Long employeeId) {
         employeeService.deleteEmployeeById(employeeId);
+        return new ResponseEntity<>("Employee deleted successfully!", HttpStatus.NO_CONTENT);
     }
 }

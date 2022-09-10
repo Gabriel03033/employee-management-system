@@ -1,6 +1,8 @@
 package com.project.it.mentor;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,25 +23,28 @@ public class MentorRestController {
     }
 
     @GetMapping
-    public List<Mentor> getAllMentors() { return mentorService.getAllMentors(); }
+    public ResponseEntity<List<Mentor>> getAllMentors() {
+        return new ResponseEntity<>(mentorService.getAllMentors(), HttpStatus.OK);
+    }
 
     @GetMapping("/{mentorId}")
-    public Mentor getMentorById(@PathVariable Long mentorId) {
-        return mentorService.getMentorById(mentorId);
+    public ResponseEntity<Mentor> getMentorById(@PathVariable Long mentorId) {
+        return new ResponseEntity<>(mentorService.getMentorById(mentorId), HttpStatus.OK);
     }
 
     @PostMapping
-    public Mentor saveMentor(@RequestBody Mentor mentor) {
-        return mentorService.saveMentor(mentor);
+    public ResponseEntity<Mentor> saveMentor(@RequestBody Mentor mentor) {
+        return new ResponseEntity<>(mentorService.saveMentor(mentor), HttpStatus.CREATED);
     }
 
     @PutMapping("/{mentorId}")
-    public Mentor updateMentorById(@RequestBody Mentor mentor, @PathVariable Long mentorId) {
-        return mentorService.updateMentorById(mentor, mentorId);
+    public ResponseEntity<Mentor> updateMentorById(@RequestBody Mentor mentor, @PathVariable Long mentorId) {
+        return new ResponseEntity<>(mentorService.updateMentorById(mentor, mentorId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{mentorId}")
-    public void deleteMentorById(@PathVariable Long mentorId) {
+    public ResponseEntity<String> deleteMentorById(@PathVariable Long mentorId) {
         mentorService.deleteMentorById(mentorId);
+        return new ResponseEntity<>("Mentor deleted sucessfully", HttpStatus.NO_CONTENT);
     }
 }
