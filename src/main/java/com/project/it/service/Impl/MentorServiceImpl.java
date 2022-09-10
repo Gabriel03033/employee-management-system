@@ -33,8 +33,7 @@ public class MentorServiceImpl implements MentorService {
     @Override
     public Mentor updateMentorById(Mentor mentor, Long mentorId) {
         Mentor mentorToUpdate = getMentorById(mentorId);
-        mentorToUpdate.setFirstName(mentor.getFirstName());
-        mentorToUpdate.setLastName(mentor.getFirstName());
+        mentorToUpdate.setName(mentor.getName());
         mentorToUpdate.setEmail(mentor.getEmail());
         mentorToUpdate.setPassword(mentor.getPassword());
         mentorToUpdate.setMobile(mentor.getMobile());
