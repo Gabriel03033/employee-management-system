@@ -4,7 +4,9 @@ import com.project.it.entity.Experience;
 import com.project.it.repository.ExperienceRepository;
 import com.project.it.service.ExperienceService;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ExperienceServiceImpl implements ExperienceService {
 
     private final ExperienceRepository experienceRepository;

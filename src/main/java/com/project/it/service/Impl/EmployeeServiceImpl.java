@@ -4,7 +4,9 @@ import com.project.it.entity.Employee;
 import com.project.it.repository.EmployeeRepository;
 import com.project.it.service.EmployeeService;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;

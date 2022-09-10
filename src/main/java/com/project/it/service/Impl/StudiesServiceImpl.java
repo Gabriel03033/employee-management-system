@@ -4,7 +4,9 @@ import com.project.it.entity.Studies;
 import com.project.it.repository.StudiesRepository;
 import com.project.it.service.StudiesService;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StudiesServiceImpl implements StudiesService {
 
     private final StudiesRepository studiesRepository;

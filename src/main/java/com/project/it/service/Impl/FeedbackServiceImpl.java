@@ -4,7 +4,9 @@ import com.project.it.entity.Feedback;
 import com.project.it.repository.FeedbackRepository;
 import com.project.it.service.FeedbackService;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;

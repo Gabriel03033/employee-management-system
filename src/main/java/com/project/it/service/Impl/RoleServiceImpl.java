@@ -4,7 +4,9 @@ import com.project.it.entity.Role;
 import com.project.it.repository.RoleRepository;
 import com.project.it.service.RoleService;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;

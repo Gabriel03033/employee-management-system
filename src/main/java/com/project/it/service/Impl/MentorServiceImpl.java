@@ -4,7 +4,9 @@ import com.project.it.entity.Mentor;
 import com.project.it.repository.MentorRepository;
 import com.project.it.service.MentorService;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MentorServiceImpl implements MentorService {
 
     private final MentorRepository mentorRepository;
