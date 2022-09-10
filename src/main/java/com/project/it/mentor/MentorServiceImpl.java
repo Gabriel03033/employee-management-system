@@ -1,5 +1,6 @@
 package com.project.it.mentor;
 
+import com.project.it.exception.ResourceNotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class MentorServiceImpl implements MentorService {
 
     @Override
     public Mentor getMentorById(Long mentorId) {
-        return mentorRepository.findById(mentorId).orElseThrow(() -> new RuntimeException("No mentors found with id: " + mentorId));
+        return mentorRepository.findById(mentorId).orElseThrow(() -> new ResourceNotFoundException("No mentor found with id: " + mentorId));
     }
 
     @Override

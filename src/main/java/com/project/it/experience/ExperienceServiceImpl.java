@@ -1,5 +1,6 @@
 package com.project.it.experience;
 
+import com.project.it.exception.ResourceNotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class ExperienceServiceImpl implements ExperienceService {
 
     @Override
     public Experience getExperienceById(Long experienceId) {
-        return experienceRepository.findById(experienceId).orElseThrow(() -> new RuntimeException("No experiences found with id: " + experienceId));
+        return experienceRepository.findById(experienceId).orElseThrow(() -> new ResourceNotFoundException("No experience found with id: " + experienceId));
     }
 
     @Override

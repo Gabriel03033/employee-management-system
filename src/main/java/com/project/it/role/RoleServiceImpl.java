@@ -1,5 +1,6 @@
 package com.project.it.role;
 
+import com.project.it.exception.ResourceNotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role getRoleById(Long rolesId) {
-        return roleRepository.findById(rolesId).orElseThrow(() -> new RuntimeException("No role found with id: " + rolesId));
+        return roleRepository.findById(rolesId).orElseThrow(() -> new ResourceNotFoundException("No role found with id: " + rolesId));
     }
 
     @Override

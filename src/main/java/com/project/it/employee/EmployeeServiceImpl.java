@@ -1,5 +1,6 @@
 package com.project.it.employee;
 
+import com.project.it.exception.ResourceNotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeById(Long employeeId) {
-        return employeeRepository.findById(employeeId).orElseThrow(() -> new RuntimeException("No employees found with id: " + employeeId));
+        return employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("No employee found with id: " + employeeId));
     }
 
     @Override

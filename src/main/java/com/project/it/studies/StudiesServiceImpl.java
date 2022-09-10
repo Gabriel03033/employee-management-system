@@ -1,5 +1,6 @@
 package com.project.it.studies;
 
+import com.project.it.exception.ResourceNotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class StudiesServiceImpl implements StudiesService {
 
     @Override
     public Studies getStudiesById(Long studiesId) {
-        return studiesRepository.findById(studiesId).orElseThrow(() -> new RuntimeException("No studies found with id: " + studiesId));
+        return studiesRepository.findById(studiesId).orElseThrow(() -> new ResourceNotFoundException("No studies found with id: " + studiesId));
     }
 
     @Override

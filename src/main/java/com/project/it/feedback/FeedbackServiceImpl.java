@@ -1,5 +1,6 @@
 package com.project.it.feedback;
 
+import com.project.it.exception.ResourceNotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public Feedback getFeedbackById(Long feedbackId) {
-        return feedbackRepository.findById(feedbackId).orElseThrow(() -> new RuntimeException("No feedbacks found with id: " + feedbackId));
+        return feedbackRepository.findById(feedbackId).orElseThrow(() -> new ResourceNotFoundException("No feedback found with id: " + feedbackId));
     }
 
     @Override
