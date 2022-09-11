@@ -37,7 +37,7 @@
       <td th:text="${employee.grade}"></td>
       <td th:text="${employee.mentor.name}"></td>
       <td>
-        <a href="#" class="btn btn-secondary">Update</a>
+        <a th:href="@{/employees/update-employee/{id}(id=${employee.employeeId})}" class="btn btn-secondary">Update</a>
         <a href="#" class="btn btn-danger">Delete</a>
         <a href="#" class="btn btn-info">View details</a>
       </td>

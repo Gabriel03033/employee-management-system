@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,5 +34,11 @@ public class EmployeeController {
     public String saveEmployee(@ModelAttribute EmployeeDto employeeDto) {
         employeeService.saveEmployee(employeeDto);
         return "redirect:/employees";
+    }
+
+    @GetMapping("/update-employee/{employeeId}")
+    public String viewUpdateEmployeeFormPage(Model model, @PathVariable Long employeeId) {
+        model.addAttribute("employeeDto", employeeService.getEmployeeById(employeeId));
+        return "update-employee";
     }
 }
