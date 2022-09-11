@@ -28,7 +28,7 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/{employeeId}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long employeeId) {
+    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long employeeId) {
         return new ResponseEntity<>(employeeService.getEmployeeById(employeeId), HttpStatus.OK);
     }
 
@@ -38,8 +38,8 @@ public class EmployeeRestController {
     }
 
     @PutMapping("/{employeeId}")
-    public ResponseEntity<Employee> updateEmployeeById(@RequestBody Employee employee, @PathVariable Long employeeId) {
-        return new ResponseEntity<>(employeeService.updateEmployeeById(employee, employeeId), HttpStatus.OK);
+    public ResponseEntity<Employee> updateEmployeeById(@RequestBody EmployeeDto employeeDto, @PathVariable Long employeeId) {
+        return new ResponseEntity<>(employeeService.updateEmployeeById(employeeDto, employeeId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{employeeId}")

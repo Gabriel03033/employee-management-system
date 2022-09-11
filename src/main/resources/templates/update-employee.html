@@ -17,7 +17,7 @@
     <div class="card px-4">
         <h1 class="text-center">Update employee</h1>
         <div class="card-body">
-            <form th:action="@{/employees/update-employee}" method="post" th:object="${employeeDto}">
+            <form th:action="@{/employees/update-employee/{id}(id=*{employeeId})}" method="post" th:object="${employeeDto}">
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label for="name">Name <span class="text-danger font-weight-bold">*</span></label>
@@ -54,13 +54,13 @@
                             <option th:each="gradeValue : ${T(com.project.it.employee.enums.Grade).values()}"
                                     th:text="${gradeValue}" th:value="${gradeValue}"></option>
                         </select>
-<!--                        <label for="mentor-id" class="mt-3">Mentor id</label>-->
-<!--                        <input type="text" id="mentor-id" th:field="*{mentorId}" placeholder="Enter mentor id"-->
-<!--                               class="form-control">-->
-<!--                        <label for="studies-id" class="mt-3">Studies id</label>-->
-<!--                        <input type="text" id="studies-id" th:field="*{studiesId}"-->
-<!--                               placeholder="Enter studies id"-->
-<!--                               class="form-control">-->
+                        <label for="mentor-id" class="mt-3">Mentor id</label>
+                        <input type="text" id="mentor-id" th:field="*{mentorId}" placeholder="Enter mentor id"
+                               class="form-control">
+                        <label for="studies-id" class="mt-3">Studies id</label>
+                        <input type="text" id="studies-id" th:field="*{studiesId}"
+                               placeholder="Enter studies id"
+                               class="form-control">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-success" style="width: 15%">Update</button>

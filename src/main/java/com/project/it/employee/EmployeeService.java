@@ -5,11 +5,11 @@ import java.util.List;
 public interface EmployeeService {
     List<Employee> getAllEmployees();
 
-    Employee getEmployeeById(Long employeeId);
+    EmployeeDto getEmployeeById(Long employeeId);
 
     Employee saveEmployee(EmployeeDto employeeDto);
 
-    Employee updateEmployeeById(Employee employee, Long employeeId);
+    Employee updateEmployeeById(EmployeeDto employeeDto, Long employeeId);
 
     void deleteEmployeeById(Long employeeId);
 }

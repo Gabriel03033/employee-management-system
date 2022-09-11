@@ -41,4 +41,10 @@ public class EmployeeController {
         model.addAttribute("employeeDto", employeeService.getEmployeeById(employeeId));
         return "update-employee";
     }
+
+    @PostMapping("/update-employee/{employeeId}")
+    public String updateEmployee(@ModelAttribute EmployeeDto employeeDto, @PathVariable Long employeeId) {
+        employeeService.updateEmployeeById(employeeDto, employeeId);
+        return "redirect:/employees";
+    }
 }
