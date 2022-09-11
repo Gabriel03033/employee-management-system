@@ -26,6 +26,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Setter
@@ -44,6 +45,7 @@ public class Employee {
     private String password;
     private String mobile;
     private String address;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     @Enumerated(EnumType.STRING)
     private EmployeeType employeeType;
