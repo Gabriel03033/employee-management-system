@@ -1,7 +1,9 @@
 package com.project.it.employee;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +47,12 @@ public class EmployeeController {
     @PostMapping("/update-employee/{employeeId}")
     public String updateEmployee(@ModelAttribute EmployeeDto employeeDto, @PathVariable Long employeeId) {
         employeeService.updateEmployeeById(employeeDto, employeeId);
+        return "redirect:/employees";
+    }
+
+    @GetMapping("/delete-employee/{employeeId}")
+    public String deleteEmployeeById(@PathVariable Long employeeId) {
+        employeeService.deleteEmployeeById(employeeId);
         return "redirect:/employees";
     }
 }
