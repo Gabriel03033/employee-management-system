@@ -1,6 +1,7 @@
 package com.project.it.feedback;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,13 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/feedbacks")
+@RequiredArgsConstructor
 public class FeedbackRestController {
 
     private final FeedbackService feedbackService;
-
-    public FeedbackRestController(FeedbackService feedbackService) {
-        this.feedbackService = feedbackService;
-    }
 
     @GetMapping
     public ResponseEntity<List<Feedback>> getAllFeedbacks(Long feedbackId) {

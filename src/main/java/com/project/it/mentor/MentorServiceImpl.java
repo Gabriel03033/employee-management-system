@@ -2,16 +2,14 @@ package com.project.it.mentor;
 
 import com.project.it.exception.ResourceNotFoundException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class MentorServiceImpl implements MentorService {
 
     private final MentorRepository mentorRepository;
-
-    public MentorServiceImpl(MentorRepository mentorRepository) {
-        this.mentorRepository = mentorRepository;
-    }
 
     @Override
     public List<Mentor> getAllMentors() {

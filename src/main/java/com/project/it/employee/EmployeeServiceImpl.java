@@ -7,22 +7,16 @@ import com.project.it.studies.Studies;
 import com.project.it.studies.StudiesRepository;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final MentorRepository mentorRepository;
     private final StudiesRepository studiesRepository;
-
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, MentorRepository mentorRepository, StudiesRepository studiesRepository) {
-        this.employeeRepository = employeeRepository;
-        this.mentorRepository = mentorRepository;
-        this.studiesRepository = studiesRepository;
-    }
 
     @Override
     public List<Employee> getAllEmployees() {
@@ -52,8 +46,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee saveEmployee(EmployeeDto employeeDto) {
-        log.info("mentorId: {}", employeeDto.getMentorId());
-        log.info("studiesId: {}", employeeDto.getStudiesId());
         Long mentorId = employeeDto.getMentorId();
         Long studiesId = employeeDto.getStudiesId();
 

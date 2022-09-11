@@ -1,6 +1,7 @@
 package com.project.it.employee;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,13 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/employees")
+@RequiredArgsConstructor
 public class EmployeeRestController {
 
     private final EmployeeService employeeService;
-
-    public EmployeeRestController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
 
     @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {

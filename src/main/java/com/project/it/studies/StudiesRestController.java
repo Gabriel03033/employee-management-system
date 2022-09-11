@@ -1,6 +1,7 @@
 package com.project.it.studies;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,13 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/studies")
+@RequiredArgsConstructor
 public class StudiesRestController {
 
     private final StudiesService studiesService;
-
-    public StudiesRestController(StudiesService studiesService) {
-        this.studiesService = studiesService;
-    }
 
     @GetMapping
     public ResponseEntity<List<Studies>> getAllStudies() {

@@ -2,16 +2,14 @@ package com.project.it.feedback;
 
 import com.project.it.exception.ResourceNotFoundException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
-
-    public FeedbackServiceImpl(FeedbackRepository feedbackRepository) {
-        this.feedbackRepository = feedbackRepository;
-    }
 
     @Override
     public List<Feedback> getAllFeedbacks() {
