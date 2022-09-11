@@ -7,7 +7,7 @@ public interface EmployeeService {
 
     Employee getEmployeeById(Long employeeId);
 
-    Employee saveEmployee(Employee employee);
+    Employee saveEmployee(EmployeeDto employeeDto);
 
     Employee updateEmployeeById(Employee employee, Long employeeId);
 

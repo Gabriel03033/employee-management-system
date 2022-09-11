@@ -25,13 +25,13 @@ public class EmployeeController {
 
     @GetMapping("/save-employee")
     public String viewSaveEmployeeFormPage(Model model) {
-        model.addAttribute("employee", new Employee());
+        model.addAttribute("employeeDto", new EmployeeDto());
         return "save-employee";
     }
 
     @PostMapping("/save-employee")
-    public String saveEmployee(@ModelAttribute Employee employee) {
-        employeeService.saveEmployee(employee);
+    public String saveEmployee(@ModelAttribute EmployeeDto employeeDto) {
+        employeeService.saveEmployee(employeeDto);
         return "redirect:/employees";
     }
 }

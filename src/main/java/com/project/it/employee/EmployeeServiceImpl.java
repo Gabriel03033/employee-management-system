@@ -1,6 +1,11 @@
 package com.project.it.employee;
 
 import com.project.it.exception.ResourceNotFoundException;
+import com.project.it.mentor.Mentor;
+import com.project.it.mentor.MentorRepository;
+import com.project.it.studies.Studies;
+import com.project.it.studies.StudiesRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +13,13 @@ import org.springframework.stereotype.Service;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final MentorRepository mentorRepository;
+    private final StudiesRepository studiesRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, MentorRepository mentorRepository, StudiesRepository studiesRepository) {
         this.employeeRepository = employeeRepository;
+        this.mentorRepository = mentorRepository;
+        this.studiesRepository = studiesRepository;
     }
 
     @Override
@@ -24,7 +33,28 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee saveEmployee(Employee employee) {
+    public Employee saveEmployee(EmployeeDto employeeDto) {
+        Long mentorId = employeeDto.getMentorId();
+        Long studiesId = employeeDto.getStudiesId();
+
+        Mentor mentorFromDto = mentorRepository.findById(mentorId).orElseThrow(() -> new ResourceNotFoundException("No mentor found with id: " + mentorId));
+        Studies studiesFromDto = studiesRepository.findById(studiesId).orElseThrow(() -> new ResourceNotFoundException("No studies found with id: " + studiesId));
+
+        Employee employee = Employee.builder()
+                .employeeId(employeeDto.getEmployeeId())
+                .name(employeeDto.getName())
+                .email(employeeDto.getEmail())
+                .password(employeeDto.getPassword())
+                .mobile(employeeDto.getMobile())
+                .address(employeeDto.getAddress())
+                .birthday(employeeDto.getBirthday())
+                .employeeType(employeeDto.getEmployeeType())
+                .position(employeeDto.getPosition())
+                .grade(employeeDto.getGrade())
+                .mentor(mentorFromDto)
+                .studies(studiesFromDto)
+                .experiences(new ArrayList<>())
+                .build();
         return employeeRepository.save(employee);
     }
 
