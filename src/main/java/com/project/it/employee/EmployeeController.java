@@ -1,6 +1,8 @@
 package com.project.it.employee;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,7 @@ public class EmployeeController {
 
     @GetMapping
     public String viewAllEmployeesPage(Model model) {
-        model.addAttribute("employees", employeeService.getAllEmployees());
-        return "employees";
+        return findAllEmployeesPagination(model, 5, 1);
     }
 
     @GetMapping("/save-employee")
@@ -56,5 +57,17 @@ public class EmployeeController {
     public String viewEmployeeDetailsPage(Model model, @PathVariable Long employeeId) {
         model.addAttribute("employeeDto", employeeService.getEmployeeById(employeeId));
         return "employee-details";
+    }
+
+    @GetMapping("/page/{pageSize}/{pageNumber}")
+    public String findAllEmployeesPagination(Model model, @PathVariable int pageSize, @PathVariable int pageNumber) {
+        Page<Employee> employeesPage = employeeService.getAllEmployeesPagination(pageNumber, pageSize);
+        List<Employee> employees = employeesPage.getContent();
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", employeesPage.getTotalPages());
+        model.addAttribute("totalEmployees", employeesPage.getTotalElements());
+        model.addAttribute("employees", employees);
+        return "employees";
     }
 }

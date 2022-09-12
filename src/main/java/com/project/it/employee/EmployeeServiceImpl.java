@@ -8,6 +8,9 @@ import com.project.it.studies.StudiesRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -98,5 +101,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteEmployeeById(Long employeeId) {
         employeeRepository.deleteById(employeeId);
+    }
+
+    @Override
+    public Page<Employee> getAllEmployeesPagination(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+        Page<Employee> employeesPage = employeeRepository.findAll(pageable);
+        return employeesPage;
     }
 }
