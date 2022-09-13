@@ -21,7 +21,7 @@ public class EmployeeController {
 
     @GetMapping
     public String viewAllEmployeesPage(Model model) {
-        return findAllEmployeesPagination(model, 5, 1, "name", "asc");
+        return findAllEmployeesPagination(model, 6, 1, "name", "asc");
     }
 
     @GetMapping("/save-employee")
