@@ -1,7 +1,9 @@
 package com.project.it.employee;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,5 +46,10 @@ public class EmployeeRestController {
     public ResponseEntity<String> deleteEmployeeById(@PathVariable Long employeeId) {
         employeeService.deleteEmployeeById(employeeId);
         return new ResponseEntity<>("Employee deleted successfully!", HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/page/{pageSize}/{pageNumber}")
+    public ResponseEntity<Page<Employee>> getAllEmployeesPagination(@PathVariable int pageSize, @PathVariable int pageNumber) {
+        return new ResponseEntity<>(employeeService.getAllEmployeesPagination(pageNumber, pageSize), HttpStatus.OK);
     }
 }
