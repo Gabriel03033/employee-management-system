@@ -112,4 +112,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         Page<Employee> employeesPage = employeeRepository.findAll(pageable);
         return employeesPage;
     }
+
+    @Override
+    public List<Employee> searchEmployeeByName(String name) {
+        return employeeRepository.searchEmployeesByName(name);
+    }
 }

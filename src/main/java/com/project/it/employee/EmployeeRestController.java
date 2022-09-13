@@ -53,4 +53,9 @@ public class EmployeeRestController {
     public ResponseEntity<Page<Employee>> getAllEmployeesPagination(@PathVariable int pageSize, @PathVariable int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection) {
         return new ResponseEntity<>(employeeService.getAllEmployeesPagination(pageNumber, pageSize, sortField, sortDirection), HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Employee>> searchEmployeesByName(@RequestParam String name) {
+        return new ResponseEntity<>(employeeService.searchEmployeeByName(name), HttpStatus.OK);
+    }
 }

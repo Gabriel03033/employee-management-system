@@ -15,4 +15,6 @@ public interface EmployeeService {
     void deleteEmployeeById(Long employeeId);
 
     Page<Employee> getAllEmployeesPagination(int pageNumber, int pageSize, String sortField, String sortDirection);
+
+    List<Employee> searchEmployeeByName(String name);
 }

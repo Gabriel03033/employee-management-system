@@ -74,6 +74,11 @@ public class EmployeeController {
         model.addAttribute("employees", employees);
         return "employees";
     }
-
-
+    @GetMapping("/search")
+    public String searchEmployeesByName(Model model, @RequestParam String name) {
+        List<Employee> filteredEmployees = employeeService.searchEmployeeByName(name);
+        model.addAttribute("filteredEmployees", filteredEmployees);
+        model.addAttribute("searchedName", name);
+        return "employees";
+    }
 }
