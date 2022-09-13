@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -104,8 +105,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Page<Employee> getAllEmployeesPagination(int pageNumber, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+    public Page<Employee> getAllEmployeesPagination(int pageNumber, int pageSize, String sortField, String sortDirection) {
+        Sort sortByField = Sort.by(sortField);
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? sortByField.ascending() : sortByField.descending();
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
         Page<Employee> employeesPage = employeeRepository.findAll(pageable);
         return employeesPage;
     }

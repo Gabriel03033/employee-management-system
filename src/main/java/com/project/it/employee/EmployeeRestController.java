@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -49,7 +50,7 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/page/{pageSize}/{pageNumber}")
-    public ResponseEntity<Page<Employee>> getAllEmployeesPagination(@PathVariable int pageSize, @PathVariable int pageNumber) {
-        return new ResponseEntity<>(employeeService.getAllEmployeesPagination(pageNumber, pageSize), HttpStatus.OK);
+    public ResponseEntity<Page<Employee>> getAllEmployeesPagination(@PathVariable int pageSize, @PathVariable int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection) {
+        return new ResponseEntity<>(employeeService.getAllEmployeesPagination(pageNumber, pageSize, sortField, sortDirection), HttpStatus.OK);
     }
 }

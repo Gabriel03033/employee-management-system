@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/employees")
@@ -20,7 +21,7 @@ public class EmployeeController {
 
     @GetMapping
     public String viewAllEmployeesPage(Model model) {
-        return findAllEmployeesPagination(model, 5, 1);
+        return findAllEmployeesPagination(model, 5, 1, "name", "asc");
     }
 
     @GetMapping("/save-employee")
@@ -60,13 +61,16 @@ public class EmployeeController {
     }
 
     @GetMapping("/page/{pageSize}/{pageNumber}")
-    public String findAllEmployeesPagination(Model model, @PathVariable int pageSize, @PathVariable int pageNumber) {
-        Page<Employee> employeesPage = employeeService.getAllEmployeesPagination(pageNumber, pageSize);
+    public String findAllEmployeesPagination(Model model, @PathVariable int pageSize, @PathVariable int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection) {
+        Page<Employee> employeesPage = employeeService.getAllEmployeesPagination(pageNumber, pageSize, sortField, sortDirection);
         List<Employee> employees = employeesPage.getContent();
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", employeesPage.getTotalPages());
         model.addAttribute("totalEmployees", employeesPage.getTotalElements());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("switchedSortDirection", sortDirection.equalsIgnoreCase("asc") ? "desc" : "asc");
         model.addAttribute("employees", employees);
         return "employees";
     }
