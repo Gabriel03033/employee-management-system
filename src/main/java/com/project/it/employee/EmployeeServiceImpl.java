@@ -105,16 +105,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Page<Employee> getAllEmployeesPagination(int pageNumber, int pageSize, String sortField, String sortDirection) {
-        Sort sortByField = Sort.by(sortField);
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? sortByField.ascending() : sortByField.descending();
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
-        Page<Employee> employeesPage = employeeRepository.findAll(pageable);
-        return employeesPage;
+    public Page<Employee> getEmployeesPerPage(int pageNumber, int pageSize, String sortField, String sortDirection) {
+        Pageable pageable = getPageRequest(pageNumber, pageSize, sortField, sortDirection);
+        Page<Employee> allEmployeesPage = employeeRepository.findAll(pageable);
+        return allEmployeesPage;
     }
 
     @Override
-    public List<Employee> searchEmployeeByName(String name) {
-        return employeeRepository.searchEmployeesByName(name);
+    public Page<Employee> getFilteredEmployeesByName(int pageNumber, int pageSize, String sortField, String sortDirection, String searchedName) {
+        Pageable pageable = getPageRequest(pageNumber, pageSize, sortField, sortDirection);
+        Page<Employee> filteredEmployeesPage = employeeRepository.findByNameContaining(searchedName, pageable);
+        return filteredEmployeesPage;
+    }
+
+    private Pageable getPageRequest(int pageNumber, int pageSize, String sortField, String sortDirection) {
+        Sort sortByField = Sort.by(sortField);
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? sortByField.ascending() : sortByField.descending();
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
+        return pageable;
     }
 }
+

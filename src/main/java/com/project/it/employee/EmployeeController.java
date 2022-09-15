@@ -20,8 +20,8 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public String viewAllEmployeesPage(Model model) {
-        return findAllEmployeesPagination(model, 6, 1, "name", "asc");
+    public String viewAllEmployeesPage(Model model, String searchedName) {
+        return findEmployeesPagination(model, 6, 1, "name", "asc", searchedName);
     }
 
     @GetMapping("/save-employee")
@@ -61,24 +61,30 @@ public class EmployeeController {
     }
 
     @GetMapping("/page/{pageSize}/{pageNumber}")
-    public String findAllEmployeesPagination(Model model, @PathVariable int pageSize, @PathVariable int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection) {
-        Page<Employee> employeesPage = employeeService.getAllEmployeesPagination(pageNumber, pageSize, sortField, sortDirection);
-        List<Employee> employees = employeesPage.getContent();
+    public String findEmployeesPagination(Model model,
+                                          @PathVariable int pageSize, @PathVariable int pageNumber,
+                                          @RequestParam String sortField, @RequestParam String sortDirection,
+                                          @ModelAttribute @RequestParam(required = false) String searchedName) {
+        Page<Employee> filteredEmployeesPage = employeeService.getFilteredEmployeesByName(pageNumber, pageSize, sortField, sortDirection, searchedName);
+        Page<Employee> allEmployeesPage = employeeService.getEmployeesPerPage(pageNumber, pageSize, sortField, sortDirection);
+        List<Employee> filteredEmployeesPageContent = filteredEmployeesPage.getContent();
+        List<Employee> allEmployeesPageContent = allEmployeesPage.getContent();
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("currentPage", pageNumber);
-        model.addAttribute("totalPages", employeesPage.getTotalPages());
-        model.addAttribute("totalEmployees", employeesPage.getTotalElements());
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("switchedSortDirection", sortDirection.equalsIgnoreCase("asc") ? "desc" : "asc");
-        model.addAttribute("employees", employees);
-        return "employees";
-    }
-    @GetMapping("/search")
-    public String searchEmployeesByName(Model model, @RequestParam String name) {
-        List<Employee> filteredEmployees = employeeService.searchEmployeeByName(name);
-        model.addAttribute("filteredEmployees", filteredEmployees);
-        model.addAttribute("searchedName", name);
+        if (searchedName == null) {
+            model.addAttribute("totalPages", allEmployeesPage.getTotalPages());
+            model.addAttribute("totalEmployees", allEmployeesPage.getTotalElements());
+            model.addAttribute("employees", allEmployeesPageContent);
+            model.addAttribute("searchedName", "");
+        } else {
+            model.addAttribute("totalPages", filteredEmployeesPage.getTotalPages());
+            model.addAttribute("totalEmployees", filteredEmployeesPage.getTotalElements());
+            model.addAttribute("employees", filteredEmployeesPageContent);
+            model.addAttribute("searchedName", searchedName);
+        }
         return "employees";
     }
 }
