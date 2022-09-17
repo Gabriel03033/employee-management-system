@@ -44,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
+    public EmployeeDto addEmployee(EmployeeDto employeeDto) {
         Employee employee = modelMapper.map(employeeDto, new TypeToken<Employee>() {}.getType());
         Employee savedEmployee = employeeRepository.save(employee);
         EmployeeDto savedEmployeeDto = modelMapper.map(savedEmployee, new TypeToken<EmployeeDto>() {}.getType());

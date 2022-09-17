@@ -33,8 +33,8 @@ public class EmployeeRestController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDto> saveEmployee(@RequestBody EmployeeDto employeeDto) {
-        return new ResponseEntity<>(employeeService.saveEmployee(employeeDto), HttpStatus.CREATED);
+    public ResponseEntity<EmployeeDto> addEmployee(@RequestBody EmployeeDto employeeDto) {
+        return new ResponseEntity<>(employeeService.addEmployee(employeeDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{employeeId}")

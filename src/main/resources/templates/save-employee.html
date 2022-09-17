@@ -5,9 +5,10 @@
 <header th:replace="~{/fragments/layout :: header}"></header>
 <main class="container my-3">
     <div class="card px-4">
-        <h3 class="text-center">Save employee</h3>
+        <h3 th:if="${employeeId == -1}" class="text-center">Add employee</h3>
+        <h3 th:unless="${employeeId == -1}" class="text-center">Update employee</h3>
         <div class="card-body">
-            <form th:action="@{/employees/save-employee}" method="post" th:object="${employeeDto}">
+            <form th:action="@{/employees/save-employee/{id}(id=${employeeId})}" method="post" th:object="${employeeDto}">
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label for="name">Name <span class="text-danger font-weight-bold">*</span></label>
@@ -53,7 +54,8 @@
                                class="form-control">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success" style="width: 15%">Save</button>
+                <button th:if="${employeeId == -1}" type="submit" class="btn btn-success" style="width: 15%">Add</button>
+                <button th:unless="${employeeId == -1}" type="submit" class="btn btn-success" style="width: 15%">Update</button>
                 <a th:href="@{/employees}" type="button" class="btn btn-danger ml-2" style="width: 15%">Cancel</a>
             </form>
         </div>

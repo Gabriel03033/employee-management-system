@@ -25,27 +25,24 @@ public class EmployeeController {
         return findEmployeesPagination(model, 6, 1, "name", "asc", "");
     }
 
-    @GetMapping("/save-employee")
-    public String viewSaveEmployeeFormPage(Model model) {
-        model.addAttribute("employeeDto", new EmployeeDto());
+    @GetMapping("/save-employee/{employeeId}")
+    public String viewSaveEmployeeFormPage(Model model, @PathVariable Long employeeId) {
+        model.addAttribute("employeeId", employeeId);
+        if(employeeId == -1) {
+            model.addAttribute("employeeDto", new EmployeeDto());
+        } else {
+            model.addAttribute("employeeDto", employeeService.getEmployeeById(employeeId));
+        }
         return "save-employee";
     }
 
-    @PostMapping("/save-employee")
-    public String saveEmployee(@ModelAttribute EmployeeDto employeeDto) {
-        employeeService.saveEmployee(employeeDto);
-        return "redirect:/employees";
-    }
-
-    @GetMapping("/update-employee/{employeeId}")
-    public String viewUpdateEmployeeFormPage(Model model, @PathVariable Long employeeId) {
-        model.addAttribute("employeeDto", employeeService.getEmployeeById(employeeId));
-        return "update-employee";
-    }
-
-    @PostMapping("/update-employee/{employeeId}")
-    public String updateEmployee(@ModelAttribute EmployeeDto employeeDto, @PathVariable Long employeeId) {
-        employeeService.updateEmployeeById(employeeDto, employeeId);
+    @PostMapping("/save-employee/{employeeId}")
+    public String saveEmployee(@ModelAttribute EmployeeDto employeeDto, @PathVariable Long employeeId) {
+        if(employeeId == -1) {
+            employeeService.addEmployee(employeeDto);
+        } else {
+            employeeService.updateEmployeeById(employeeDto, employeeId);
+        }
         return "redirect:/employees";
     }
 

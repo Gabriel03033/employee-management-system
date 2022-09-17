@@ -8,7 +8,7 @@ public interface EmployeeService {
 
     EmployeeDto getEmployeeById(Long employeeId);
 
-    EmployeeDto saveEmployee(EmployeeDto employeeDto);
+    EmployeeDto addEmployee(EmployeeDto employeeDto);
 
     EmployeeDto updateEmployeeById(EmployeeDto employeeDto, Long employeeId);
 
