@@ -20,8 +20,8 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public String viewAllEmployeesPage(Model model, String searchedName) {
-        return findEmployeesPagination(model, 6, 1, "name", "asc", searchedName);
+    public String viewAllEmployeesPage(Model model) {
+        return findEmployeesPagination(model, 6, 1, "name", "asc", "");
     }
 
     @GetMapping("/save-employee")
@@ -60,9 +60,9 @@ public class EmployeeController {
         return "employee-details";
     }
 
-    @GetMapping("/page/{pageSize}/{pageNumber}")
+    @GetMapping("/page")
     public String findEmployeesPagination(Model model,
-                                          @PathVariable int pageSize, @PathVariable int pageNumber,
+                                          @RequestParam int pageSize, @RequestParam int pageNumber,
                                           @RequestParam String sortField, @RequestParam String sortDirection,
                                           @ModelAttribute @RequestParam(required = false) String searchedName) {
         Page<Employee> filteredEmployeesPage = employeeService.getFilteredEmployeesByName(pageNumber, pageSize, sortField, sortDirection, searchedName);

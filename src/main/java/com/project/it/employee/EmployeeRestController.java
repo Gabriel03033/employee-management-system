@@ -49,13 +49,13 @@ public class EmployeeRestController {
         return new ResponseEntity<>("Employee deleted successfully!", HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/page/{pageSize}/{pageNumber}")
-    public ResponseEntity<Page<Employee>> getEmployeesPerPage(@PathVariable int pageSize, @PathVariable int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection) {
+    @GetMapping("/page")
+    public ResponseEntity<Page<Employee>> getEmployeesPerPage(@RequestParam int pageSize, @RequestParam int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection) {
         return new ResponseEntity<>(employeeService.getEmployeesPerPage(pageNumber, pageSize, sortField, sortDirection), HttpStatus.OK);
     }
 
-    @GetMapping("/search/page/{pageSize}/{pageNumber}")
-    public ResponseEntity<Page<Employee>> getFilteredEmployeesByName(@PathVariable int pageSize, @PathVariable int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection, @RequestParam String searchedName) {
+    @GetMapping("/search/page")
+    public ResponseEntity<Page<Employee>> getFilteredEmployeesByName(@RequestParam int pageSize, @RequestParam int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection, @RequestParam String searchedName) {
         return new ResponseEntity<>(employeeService.getFilteredEmployeesByName(pageNumber, pageSize, sortField, sortDirection, searchedName), HttpStatus.OK);
     }
 }
