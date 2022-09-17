@@ -1,21 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Employees</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
-  <link type="text/css" rel="stylesheet" th:href="@{/css/employee.css}">
-  <script src="https://kit.fontawesome.com/cda29b3762.js" crossorigin="anonymous" defer></script>
-  <script type="text/javascript" th:src="@{/js/employee.js}" defer></script>
-</head>
+<head th:replace="~{/fragments/layout :: head('Employees')}"></head>
 <body>
-<header>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a href="/employees" class="navbar-brand p-2">Employee Management System</a>
-  </nav>
-</header>
+<header th:replace="~{/fragments/layout :: header}"></header>
 <main class="mt-3 mx-auto w-75">
   <h3>Employees list</h3>
   <div class="my-2 d-flex justify-content-between">
@@ -154,8 +141,6 @@
     </div>
   </nav>
 </main>
-<footer class="text-center text-lg-start bg-dark position-fixed fixed-bottom">
-  <div class="text-white p-3">© Copyright <span th:text="${#dates.year(#dates.createNow())}"></span> - Gabriel Faur</div>
-</footer>
+<footer th:replace="~{/fragments/layout :: footer}"></footer>
 </body>
 </html>
