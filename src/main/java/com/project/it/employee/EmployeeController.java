@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -48,7 +49,7 @@ public class EmployeeController {
         return "redirect:/employees";
     }
 
-    @GetMapping("/delete-employee/{employeeId}")
+    @RequestMapping(value = "/delete-employee/{employeeId}", method = {RequestMethod.DELETE, RequestMethod.GET})
     public String deleteEmployeeById(@PathVariable Long employeeId) {
         employeeService.deleteEmployeeById(employeeId);
         return "redirect:/employees";
