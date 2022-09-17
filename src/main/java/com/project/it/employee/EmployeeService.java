@@ -4,13 +4,13 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 public interface EmployeeService {
-    List<Employee> getAllEmployees();
+    List<EmployeeDto> getAllEmployees();
 
     EmployeeDto getEmployeeById(Long employeeId);
 
-    Employee saveEmployee(EmployeeDto employeeDto);
+    EmployeeDto saveEmployee(EmployeeDto employeeDto);
 
-    Employee updateEmployeeById(EmployeeDto employeeDto, Long employeeId);
+    EmployeeDto updateEmployeeById(EmployeeDto employeeDto, Long employeeId);
 
     void deleteEmployeeById(Long employeeId);
 

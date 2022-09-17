@@ -1,6 +1,5 @@
 package com.project.it.employee;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +23,7 @@ public class EmployeeRestController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public ResponseEntity<List<Employee>> getAllEmployees() {
+    public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
         return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
     }
 
@@ -34,12 +33,12 @@ public class EmployeeRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Employee> saveEmployee(@RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeDto> saveEmployee(@RequestBody EmployeeDto employeeDto) {
         return new ResponseEntity<>(employeeService.saveEmployee(employeeDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{employeeId}")
-    public ResponseEntity<Employee> updateEmployeeById(@RequestBody EmployeeDto employeeDto, @PathVariable Long employeeId) {
+    public ResponseEntity<EmployeeDto> updateEmployeeById(@RequestBody EmployeeDto employeeDto, @PathVariable Long employeeId) {
         return new ResponseEntity<>(employeeService.updateEmployeeById(employeeDto, employeeId), HttpStatus.OK);
     }
 
