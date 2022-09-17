@@ -99,9 +99,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private Pageable getPageRequest(int pageNumber, int pageSize, String sortField, String sortDirection) {
-        Sort sortByField = Sort.by(sortField);
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? sortByField.ascending() : sortByField.descending();
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
+        Pageable pageable;
+        if (sortField == null || sortField.isBlank()) {
+            pageable = PageRequest.of(pageNumber - 1, pageSize);
+        } else {
+            Sort sortByField = Sort.by(sortField);
+            Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? sortByField.ascending() : sortByField.descending();
+            pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
+        }
         return pageable;
     }
 }

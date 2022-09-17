@@ -7,9 +7,11 @@
   <h3>Employees list</h3>
   <div class="my-2 d-flex justify-content-between">
     <a href="/employees/save-employee/-1" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Employee</a>
-    <form class="justify-content-end" th:action="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}" method="get">
+    <form class="justify-content-end"
+          th:action="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}"
+          method="post" th:object="${searchDto}">
       <div class="input-group">
-        <div class="form-outline rounded-left"><input type="search" id="search-bar" placeholder="Search" class="form-control"/></div>
+        <div class="form-outline rounded-left"><input type="search" id="search-bar" th:field="*{name}" placeholder="Search" class="form-control"/></div>
         <button type="submit" class="btn btn-dark rounded-right" id="search-button"><i class="fas fa-search"></i></button>
       </div>
     </form>
@@ -18,51 +20,66 @@
     <thead class="thead-dark">
     <tr>
       <th>
+        <a class="thead-link" th:if="${sortField eq ''}"
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=name&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Name</a>
         <a class="thead-link" th:if="${sortDirection eq 'asc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=name&sortDirection=' + ${switchedSortDirection}}">Name&ensp;<i
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=name&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Name&ensp;<i
                 th:if="${sortField eq 'name'}" class="fa-solid fa-angle-down"></i></a>
         <a class="thead-link" th:if="${sortDirection eq 'desc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=name&sortDirection=' + ${switchedSortDirection} }">Name&ensp;<i
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=name&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Name&ensp;<i
                 th:if="${sortField eq 'name'}" class="fa-solid fa-angle-up"></i></a>
       </th>
       <th>
+        <a class="thead-link" th:if="${sortField eq ''}"
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=email&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Email</a>
         <a class="thead-link" th:if="${sortDirection eq 'asc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=email&sortDirection=' + ${switchedSortDirection}}">Email&ensp;<i
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=email&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Email&ensp;<i
                 th:if="${sortField eq 'email'}" class="fa-solid fa-angle-down"></i></a>
         <a class="thead-link" th:if="${sortDirection eq 'desc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=email&sortDirection=' + ${switchedSortDirection}}">Email&ensp;<i
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=email&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Email&ensp;<i
                 th:if="${sortField eq 'email'}" class="fa-solid fa-angle-up"></i></a>
       </th>
       <th>
+        <a class="thead-link" th:if="${sortField eq ''}"
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=employeeType&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Job
+          Type</a>
         <a class="thead-link" th:if="${sortDirection eq 'asc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=employeeType&sortDirection=' + ${switchedSortDirection}}">Job Type&ensp;<i
-                th:if="${sortField eq 'employeeType'}" class="fa-solid fa-angle-down"></i></a>
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=employeeType&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Job
+          Type&ensp;<i
+                  th:if="${sortField eq 'employeeType'}" class="fa-solid fa-angle-down"></i></a>
         <a class="thead-link" th:if="${sortDirection eq 'desc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=employeeType&sortDirection=' + ${switchedSortDirection}}">Job Type&ensp;<i
-                th:if="${sortField eq 'employeeType'}" class="fa-solid fa-angle-up"></i></a>
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=employeeType&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Job
+          Type&ensp;<i
+                  th:if="${sortField eq 'employeeType'}" class="fa-solid fa-angle-up"></i></a>
       </th>
       <th>
+        <a class="thead-link" th:if="${sortField eq ''}"
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=position&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Position</a>
         <a class="thead-link" th:if="${sortDirection eq 'asc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=position&sortDirection=' + ${switchedSortDirection}}">Position&ensp;<i
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=position&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Position&ensp;<i
                 th:if="${sortField eq 'position'}" class="fa-solid fa-angle-down"></i></a>
         <a class="thead-link" th:if="${sortDirection eq 'desc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=position&sortDirection=' + ${switchedSortDirection}}">Position&ensp;<i
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=position&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Position&ensp;<i
                 th:if="${sortField eq 'position'}" class="fa-solid fa-angle-up"></i></a>
       </th>
       <th>
+        <a class="thead-link" th:if="${sortField eq ''}"
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=grade&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Grade</a>
         <a class="thead-link" th:if="${sortDirection eq 'asc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=grade&sortDirection=' + ${switchedSortDirection}}">Grade&ensp;<i
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=grade&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Grade&ensp;<i
                 th:if="${sortField eq 'grade'}" class="fa-solid fa-angle-down"></i></a>
         <a class="thead-link" th:if="${sortDirection eq 'desc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=grade&sortDirection=' + ${switchedSortDirection}}">Grade&ensp;<i
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=grade&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Grade&ensp;<i
                 th:if="${sortField eq 'grade'}" class="fa-solid fa-angle-up"></i></a>
       </th>
       <th>
+        <a class="thead-link" th:if="${sortField eq ''}"
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=mentor&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Mentor</a>
         <a class="thead-link" th:if="${sortDirection eq 'asc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=mentor&sortDirection=' + ${switchedSortDirection}}">Mentor&ensp;<i
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=mentor&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Mentor&ensp;<i
                 th:if="${sortField eq 'mentor'}" class="fa-solid fa-angle-down"></i></a>
         <a class="thead-link" th:if="${sortDirection eq 'desc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=mentor&sortDirection=' + ${switchedSortDirection}}">Mentor&ensp;<i
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=mentor&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Mentor&ensp;<i
                 th:if="${sortField eq 'mentor'}" class="fa-solid fa-angle-up"></i></a>
       </th>
       <th>Actions</th>
@@ -88,8 +105,10 @@
     <div>Total employees: <span th:text="${totalEmployees}"></span></div>
     <div th:if="${totalPages > 1}">
       <ul class="pagination justify-content-end">
+
         <li class="page-item">
-          <a class="page-link" th:if="${currentPage > 1}" th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=1&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">First</a>
+          <a class="page-link" th:if="${currentPage > 1}"
+             th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=1&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">First</a>
           <a class="page-link" th:unless="${currentPage > 1}" th:disabled>First</a>
         </li>
         <li class="page-item">
@@ -97,36 +116,43 @@
              th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage - 1} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">Previous</a>
           <a class="page-link" th:unless="${currentPage > 1}" th:disabled>Previous</a>
         </li>
+
         <span th:if="${currentPage == 1 and totalPages > 3}" th:each="page:${#numbers.sequence(1, 3)}">
           <li class="page-item">
-            <a class="page-link" th:if="${currentPage != page}" th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>
+            <a class="page-link" th:if="${currentPage != page}"
+               th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>
             <a class="page-link" th:unless="${currentPage != page}" th:disabled>[[${page}]]</a>
           </li>
         </span>
         <span th:if="${currentPage == 1 and totalPages <= 3}" th:each="page:${#numbers.sequence(1, totalPages)}">
           <li class="page-item">
-            <a class="page-link" th:if="${currentPage != page}" th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>
+            <a class="page-link" th:if="${currentPage != page}"
+               th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>
             <a class="page-link" th:unless="${currentPage != page}" th:disabled>[[${page}]]</a>
           </li>
         </span>
         <span th:if="${currentPage > 1 and totalPages > 3}" th:each="page:${#numbers.sequence(currentPage - 1, currentPage + 1)}">
           <li class="page-item">
-            <a class="page-link" th:if="${currentPage != page}" th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>
+            <a class="page-link" th:if="${currentPage != page}"
+               th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>
             <a class="page-link" th:unless="${currentPage != page}" th:disabled>[[${page}]]</a>
           </li>
         </span>
         <span th:if="${currentPage > 1 and totalPages <= 3}" th:each="page:${#numbers.sequence(currentPage - 1, totalPages)}">
           <li class="page-item">
-            <a class="page-link" th:if="${currentPage != page}" th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>
+            <a class="page-link" th:if="${currentPage != page}"
+               th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>
             <a class="page-link" th:unless="${currentPage != page}" th:disabled>[[${page}]]</a>
           </li>
         </span>
         <span th:if="${currentPage > totalPages - 3 and totalPages > 3}" th:each="page:${#numbers.sequence(totalPages - 2, totalPages)}">
           <li class="page-item">
-            <a class="page-link" th:if="${currentPage != page}" th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>
+            <a class="page-link" th:if="${currentPage != page}"
+               th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>
             <a class="page-link" th:unless="${currentPage != page}" th:disabled>[[${page}]]</a>
           </li>
         </span>
+
         <li class="page-item">
           <a class="page-link" th:if="${currentPage < totalPages}"
              th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage + 1} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">Next</a>

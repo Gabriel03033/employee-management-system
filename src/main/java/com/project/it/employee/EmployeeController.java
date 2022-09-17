@@ -1,5 +1,6 @@
 package com.project.it.employee;
 
+import com.project.it.dto.SearchDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ public class EmployeeController {
 
     @GetMapping
     public String viewAllEmployeesPage(Model model) {
-        return findEmployeesPagination(model, 6, 1, "name", "asc", "");
+        return findEmployeesPagination(model, 6, 1, "", "", "");
     }
 
     @GetMapping("/save-employee/{employeeId}")
@@ -61,8 +62,8 @@ public class EmployeeController {
     @GetMapping("/page")
     public String findEmployeesPagination(Model model,
                                           @RequestParam int pageSize, @RequestParam int pageNumber,
-                                          @RequestParam String sortField, @RequestParam String sortDirection,
-                                          @ModelAttribute @RequestParam(required = false) String searchedName) {
+                                          @RequestParam(required = false) String sortField, @RequestParam(required = false) String sortDirection,
+                                          @RequestParam(required = false) String searchedName) {
         Page<Employee> filteredEmployeesPage = employeeService.getFilteredEmployeesByName(pageNumber, pageSize, sortField, sortDirection, searchedName);
         Page<Employee> allEmployeesPage = employeeService.getEmployeesPerPage(pageNumber, pageSize, sortField, sortDirection);
         List<Employee> filteredEmployeesPageContent = filteredEmployeesPage.getContent();
@@ -72,6 +73,7 @@ public class EmployeeController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("switchedSortDirection", sortDirection.equalsIgnoreCase("asc") ? "desc" : "asc");
+        model.addAttribute("searchDto", new SearchDto());
         if (searchedName == null) {
             model.addAttribute("totalPages", allEmployeesPage.getTotalPages());
             model.addAttribute("totalEmployees", allEmployeesPage.getTotalElements());
@@ -84,5 +86,23 @@ public class EmployeeController {
             model.addAttribute("searchedName", searchedName);
         }
         return "employees";
+    }
+
+    @PostMapping("/page")
+    public String getSearchResult(Model model,
+                                  @RequestParam int pageSize, @RequestParam int pageNumber,
+                                  @RequestParam(required = false) String sortField, @RequestParam(required = false) String sortDirection,
+                                  @RequestParam(required = false) String searchedName,
+                                  @ModelAttribute SearchDto searchDto) {
+        searchedName = "";
+        String sortParams = "";
+        if (sortField == null || sortField.isBlank()) {
+            sortField = "";
+            sortDirection = "";
+            sortParams = "&sortField=" + sortField + "&sortDirection=" +sortDirection;
+        }
+        searchedName = searchDto.getName();
+        findEmployeesPagination(model, pageSize, pageNumber, sortField, sortDirection, searchedName);
+        return "redirect:/employees/page?pageSize=" + pageSize + "&pageNumber=" + pageNumber + sortParams + "&searchedName=" + searchedName;
     }
 }
