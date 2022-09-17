@@ -8,6 +8,8 @@ import com.project.it.studies.StudiesRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,14 +23,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final MentorRepository mentorRepository;
     private final StudiesRepository studiesRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public List<EmployeeDto> getAllEmployees() {
-        List<EmployeeDto> employeeDtos = new ArrayList<>();
         List<Employee> employees = employeeRepository.findAll();
-        for (Employee employee : employees) {
-            EmployeeDto employeeDto = getEmployeeDtoFromEmployee(employee);
-            employeeDtos.add(employeeDto);
+        List<EmployeeDto> employeeDtos = new ArrayList<>();
+
+        if(!employees.isEmpty()) {
+            employeeDtos = modelMapper.map(employees, new TypeToken<List<EmployeeDto>>() {}.getType());
         }
         return employeeDtos;
     }
@@ -36,15 +39,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("No employee found with id: " + employeeId));
-        EmployeeDto employeeDto = getEmployeeDtoFromEmployee(employee);
+        EmployeeDto employeeDto = modelMapper.map(employee, new TypeToken<EmployeeDto>() {}.getType());
         return employeeDto;
     }
 
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
-        Employee employee = getEmployeeFromEmployeeDto(employeeDto);
+        Employee employee = modelMapper.map(employeeDto, new TypeToken<Employee>() {}.getType());
         Employee savedEmployee = employeeRepository.save(employee);
-        EmployeeDto savedEmployeeDto = getEmployeeDtoFromEmployee(savedEmployee);
+        EmployeeDto savedEmployeeDto = modelMapper.map(savedEmployee, new TypeToken<EmployeeDto>() {}.getType());
         return savedEmployeeDto;
     }
 
@@ -72,57 +75,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setExperiences(employeeDto.getExperiences());
 
         Employee updatedEmployee = employeeRepository.save(employee);
-        EmployeeDto updatedEmployeeDto = getEmployeeDtoFromEmployee(updatedEmployee);
+        EmployeeDto updatedEmployeeDto = modelMapper.map(updatedEmployee, new TypeToken<EmployeeDto>() {}.getType());
         return updatedEmployeeDto;
     }
 
     @Override
     public void deleteEmployeeById(Long employeeId) {
         employeeRepository.deleteById(employeeId);
-    }
-
-    private EmployeeDto getEmployeeDtoFromEmployee(Employee employee) {
-        EmployeeDto employeeDto = EmployeeDto.builder()
-                .employeeId(employee.getEmployeeId())
-                .name(employee.getName())
-                .email(employee.getEmail())
-                .password(employee.getPassword())
-                .mobile(employee.getMobile())
-                .address(employee.getAddress())
-                .birthday(employee.getBirthday())
-                .employeeType(employee.getEmployeeType())
-                .position(employee.getPosition())
-                .grade(employee.getGrade())
-                .mentorId(employee.getMentor().getMentorId())
-                .studiesId(employee.getStudies().getStudiesId())
-                .experiences(employee.getExperiences())
-                .build();
-        return employeeDto;
-    }
-
-    private Employee getEmployeeFromEmployeeDto(EmployeeDto employeeDto) {
-        Long mentorId = employeeDto.getMentorId();
-        Long studiesId = employeeDto.getStudiesId();
-
-        Mentor mentorFromDto = mentorRepository.findById(mentorId).orElseThrow(() -> new ResourceNotFoundException("No mentor found with id: " + mentorId));
-        Studies studiesFromDto = studiesRepository.findById(studiesId).orElseThrow(() -> new ResourceNotFoundException("No studies found with id: " + studiesId));
-
-        Employee employee = Employee.builder()
-                .employeeId(employeeDto.getEmployeeId())
-                .name(employeeDto.getName())
-                .email(employeeDto.getEmail())
-                .password(employeeDto.getPassword())
-                .mobile(employeeDto.getMobile())
-                .address(employeeDto.getAddress())
-                .birthday(employeeDto.getBirthday())
-                .employeeType(employeeDto.getEmployeeType())
-                .position(employeeDto.getPosition())
-                .grade(employeeDto.getGrade())
-                .mentor(mentorFromDto)
-                .studies(studiesFromDto)
-                .experiences(new ArrayList<>())
-                .build();
-        return employee;
     }
 
     @Override
