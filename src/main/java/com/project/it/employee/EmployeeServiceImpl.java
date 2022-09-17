@@ -26,22 +26,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDto> getAllEmployees() {
         List<EmployeeDto> employeeDtos = new ArrayList<>();
         List<Employee> employees = employeeRepository.findAll();
-        for(Employee employee : employees) {
-            EmployeeDto employeeDto = EmployeeDto.builder()
-                    .employeeId(employee.getEmployeeId())
-                    .name(employee.getName())
-                    .email(employee.getEmail())
-                    .password(employee.getPassword())
-                    .mobile(employee.getMobile())
-                    .address(employee.getAddress())
-                    .birthday(employee.getBirthday())
-                    .employeeType(employee.getEmployeeType())
-                    .position(employee.getPosition())
-                    .grade(employee.getGrade())
-                    .mentorId(employee.getMentor().getMentorId())
-                    .studiesId(employee.getStudies().getStudiesId())
-                    .experiences(employee.getExperiences())
-                    .build();
+        for (Employee employee : employees) {
+            EmployeeDto employeeDto = getEmployeeDtoFromEmployee(employee);
             employeeDtos.add(employeeDto);
         }
         return employeeDtos;
@@ -50,65 +36,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("No employee found with id: " + employeeId));
-        EmployeeDto employeeDto = EmployeeDto.builder()
-                .employeeId(employee.getEmployeeId())
-                .name(employee.getName())
-                .email(employee.getEmail())
-                .password(employee.getPassword())
-                .mobile(employee.getMobile())
-                .address(employee.getAddress())
-                .birthday(employee.getBirthday())
-                .employeeType(employee.getEmployeeType())
-                .position(employee.getPosition())
-                .grade(employee.getGrade())
-                .mentorId(employee.getMentor().getMentorId())
-                .studiesId(employee.getStudies().getStudiesId())
-                .experiences(employee.getExperiences())
-                .build();
+        EmployeeDto employeeDto = getEmployeeDtoFromEmployee(employee);
         return employeeDto;
     }
 
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
-        Long mentorId = employeeDto.getMentorId();
-        Long studiesId = employeeDto.getStudiesId();
-
-        Mentor mentorFromDto = mentorRepository.findById(mentorId).orElseThrow(() -> new ResourceNotFoundException("No mentor found with id: " + mentorId));
-        Studies studiesFromDto = studiesRepository.findById(studiesId).orElseThrow(() -> new ResourceNotFoundException("No studies found with id: " + studiesId));
-
-        Employee employee = Employee.builder()
-                .employeeId(employeeDto.getEmployeeId())
-                .name(employeeDto.getName())
-                .email(employeeDto.getEmail())
-                .password(employeeDto.getPassword())
-                .mobile(employeeDto.getMobile())
-                .address(employeeDto.getAddress())
-                .birthday(employeeDto.getBirthday())
-                .employeeType(employeeDto.getEmployeeType())
-                .position(employeeDto.getPosition())
-                .grade(employeeDto.getGrade())
-                .mentor(mentorFromDto)
-                .studies(studiesFromDto)
-                .experiences(new ArrayList<>())
-                .build();
-        
+        Employee employee = getEmployeeFromEmployeeDto(employeeDto);
         Employee savedEmployee = employeeRepository.save(employee);
-
-        EmployeeDto savedEmployeeDto = EmployeeDto.builder()
-                .employeeId(savedEmployee.getEmployeeId())
-                .name(savedEmployee.getName())
-                .email(savedEmployee.getEmail())
-                .password(savedEmployee.getPassword())
-                .mobile(savedEmployee.getMobile())
-                .address(savedEmployee.getAddress())
-                .birthday(savedEmployee.getBirthday())
-                .employeeType(savedEmployee.getEmployeeType())
-                .position(savedEmployee.getPosition())
-                .grade(savedEmployee.getGrade())
-                .mentorId(savedEmployee.getMentor().getMentorId())
-                .studiesId(savedEmployee.getStudies().getStudiesId())
-                .experiences(savedEmployee.getExperiences())
-                .build();
+        EmployeeDto savedEmployeeDto = getEmployeeDtoFromEmployee(savedEmployee);
         return savedEmployeeDto;
     }
 
@@ -134,30 +70,59 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setMentor(mentorFromDto);
         employee.setStudies(studiesFromDto);
         employee.setExperiences(employeeDto.getExperiences());
-        
-        Employee updatedEmployee = employeeRepository.save(employee);
 
-        EmployeeDto updatedEmployeeDto = EmployeeDto.builder()
-                .employeeId(updatedEmployee.getEmployeeId())
-                .name(updatedEmployee.getName())
-                .email(updatedEmployee.getEmail())
-                .password(updatedEmployee.getPassword())
-                .mobile(updatedEmployee.getMobile())
-                .address(updatedEmployee.getAddress())
-                .birthday(updatedEmployee.getBirthday())
-                .employeeType(updatedEmployee.getEmployeeType())
-                .position(updatedEmployee.getPosition())
-                .grade(updatedEmployee.getGrade())
-                .mentorId(updatedEmployee.getMentor().getMentorId())
-                .studiesId(updatedEmployee.getStudies().getStudiesId())
-                .experiences(updatedEmployee.getExperiences())
-                .build();
+        Employee updatedEmployee = employeeRepository.save(employee);
+        EmployeeDto updatedEmployeeDto = getEmployeeDtoFromEmployee(updatedEmployee);
         return updatedEmployeeDto;
     }
 
     @Override
     public void deleteEmployeeById(Long employeeId) {
         employeeRepository.deleteById(employeeId);
+    }
+
+    private EmployeeDto getEmployeeDtoFromEmployee(Employee employee) {
+        EmployeeDto employeeDto = EmployeeDto.builder()
+                .employeeId(employee.getEmployeeId())
+                .name(employee.getName())
+                .email(employee.getEmail())
+                .password(employee.getPassword())
+                .mobile(employee.getMobile())
+                .address(employee.getAddress())
+                .birthday(employee.getBirthday())
+                .employeeType(employee.getEmployeeType())
+                .position(employee.getPosition())
+                .grade(employee.getGrade())
+                .mentorId(employee.getMentor().getMentorId())
+                .studiesId(employee.getStudies().getStudiesId())
+                .experiences(employee.getExperiences())
+                .build();
+        return employeeDto;
+    }
+
+    private Employee getEmployeeFromEmployeeDto(EmployeeDto employeeDto) {
+        Long mentorId = employeeDto.getMentorId();
+        Long studiesId = employeeDto.getStudiesId();
+
+        Mentor mentorFromDto = mentorRepository.findById(mentorId).orElseThrow(() -> new ResourceNotFoundException("No mentor found with id: " + mentorId));
+        Studies studiesFromDto = studiesRepository.findById(studiesId).orElseThrow(() -> new ResourceNotFoundException("No studies found with id: " + studiesId));
+
+        Employee employee = Employee.builder()
+                .employeeId(employeeDto.getEmployeeId())
+                .name(employeeDto.getName())
+                .email(employeeDto.getEmail())
+                .password(employeeDto.getPassword())
+                .mobile(employeeDto.getMobile())
+                .address(employeeDto.getAddress())
+                .birthday(employeeDto.getBirthday())
+                .employeeType(employeeDto.getEmployeeType())
+                .position(employeeDto.getPosition())
+                .grade(employeeDto.getGrade())
+                .mentor(mentorFromDto)
+                .studies(studiesFromDto)
+                .experiences(new ArrayList<>())
+                .build();
+        return employee;
     }
 
     @Override
@@ -181,4 +146,3 @@ public class EmployeeServiceImpl implements EmployeeService {
         return pageable;
     }
 }
-
