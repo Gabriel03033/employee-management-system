@@ -1,0 +1,24 @@
+.thead-link, .thead-link:hover {
+    color: white;
+}
+
+.thead-link:hover {
+    text-decoration: none;
+}
+
+.modal-position {
+    z-index: 10;
+    position: fixed;
+    top: 15vh;
+    left: calc(50% - 12rem);
+}
+
+.backdrop {
+    position: fixed;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.75);
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left:0;
+}

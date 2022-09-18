@@ -1,15 +1,21 @@
 package com.project.it.employee;
 
+import com.project.it.dto.EmployeeDto;
 import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface EmployeeService {
-    List<Employee> getAllEmployees();
+    List<EmployeeDto> getAllEmployees();
 
-    Employee getEmployeeById(Long employeeId);
+    EmployeeDto getEmployeeById(Long employeeId);
 
-    Employee saveEmployee(Employee employee);
+    EmployeeDto addEmployee(EmployeeDto employeeDto);
 
-    Employee updateEmployeeById(Employee employee, Long employeeId);
+    EmployeeDto updateEmployeeById(EmployeeDto employeeDto, Long employeeId);
 
     void deleteEmployeeById(Long employeeId);
+
+    Page<EmployeeDto> getEmployeesPerPage(int pageNumber, int pageSize, String sortField, String sortDirection);
+
+    Page<EmployeeDto> getFilteredEmployeesByName(int pageNumber, int pageSize, String sortField, String sortDirection, String searchedName);
 }

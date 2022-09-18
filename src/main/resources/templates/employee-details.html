@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/fragments/layout :: head('Employee Details')}"></head>
+<body>
+<header th:replace="~{/fragments/layout :: header}"></header>
+<main class="my-3 mx-auto w-50">
+    <div class="card px-4">
+        <h3 class="text-center">Employee Details</h3>
+        <div class="card-body">
+            <p>Name: <span th:text="${employeeDto.name}"></span></p>
+            <p>Email: <span th:text="${employeeDto.email}"></span></p>
+            <p>Mobile: <span th:text="${employeeDto.mobile}"></span></p>
+            <p>Address: <span th:text="${employeeDto.address}"></span></p>
+            <p>Birthday: <span th:text="${employeeDto.birthday}"></span></p>
+            <p>Employee type: <span th:text="${employeeDto.jobType}"></span></p>
+            <p>Position: <span th:text="${employeeDto.position}"></span></p>
+            <p>Grade: <span th:text="${employeeDto.grade}"></span></p>
+            <p>Mentor ID: <span th:text="${employeeDto.mentorId}"></span></p>
+            <p>Studies ID: <span th:text="${employeeDto.studiesId}"></span></p>
+            <p>Experiences: []</p>
+            <a th:href="@{/employees}" type="button" class="btn btn-secondary" style="width:15%">Back</a>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{/fragments/layout :: footer}"></footer>
+</body>
+</html>

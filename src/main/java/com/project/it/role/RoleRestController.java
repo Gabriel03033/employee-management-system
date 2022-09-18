@@ -1,6 +1,7 @@
 package com.project.it.role;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,14 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("/api/roles")
+@RequiredArgsConstructor
 public class RoleRestController {
 
     private final RoleService roleService;
-
-    public RoleRestController(RoleService roleService) {
-        this.roleService = roleService;
-    }
 
     @GetMapping
     public ResponseEntity<List<Role>> getAllRoles() {

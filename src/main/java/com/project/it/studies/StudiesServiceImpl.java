@@ -2,16 +2,14 @@ package com.project.it.studies;
 
 import com.project.it.exception.ResourceNotFoundException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class StudiesServiceImpl implements StudiesService {
 
     private final StudiesRepository studiesRepository;
-
-    public StudiesServiceImpl(StudiesRepository studiesRepository) {
-        this.studiesRepository = studiesRepository;
-    }
 
     @Override
     public List<Studies> getAllStudies() {

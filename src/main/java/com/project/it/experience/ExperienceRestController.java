@@ -1,6 +1,7 @@
 package com.project.it.experience;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,14 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/experiences")
+@RequestMapping("/api/experiences")
+@RequiredArgsConstructor
 public class ExperienceRestController {
 
     private final ExperienceService experienceService;
-
-    public ExperienceRestController(ExperienceService experienceService) {
-        this.experienceService = experienceService;
-    }
 
     @GetMapping
     public ResponseEntity<List<Experience>> getAllExperiences() {
