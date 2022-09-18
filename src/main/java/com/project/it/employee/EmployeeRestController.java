@@ -1,6 +1,8 @@
 package com.project.it.employee;
 
+import com.project.it.dto.EmployeeDto;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -43,9 +45,9 @@ public class EmployeeRestController {
     }
 
     @DeleteMapping("/{employeeId}")
-    public ResponseEntity<String> deleteEmployeeById(@PathVariable Long employeeId) {
+    public ResponseEntity<Map<String, String>> deleteEmployeeById(@PathVariable Long employeeId) {
         employeeService.deleteEmployeeById(employeeId);
-        return new ResponseEntity<>("Employee deleted successfully!", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(Map.of("message", "Employee deleted successfully!"), HttpStatus.OK);
     }
 
     @GetMapping("/page")

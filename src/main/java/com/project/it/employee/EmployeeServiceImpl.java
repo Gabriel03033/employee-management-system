@@ -1,5 +1,6 @@
 package com.project.it.employee;
 
+import com.project.it.dto.EmployeeDto;
 import com.project.it.exception.ResourceNotFoundException;
 import com.project.it.mentor.Mentor;
 import com.project.it.mentor.MentorRepository;
@@ -67,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setMobile(employeeDto.getMobile());
         employee.setAddress(employeeDto.getAddress());
         employee.setBirthday(employeeDto.getBirthday());
-        employee.setEmployeeType(employeeDto.getEmployeeType());
+        employee.setJobType(employeeDto.getJobType());
         employee.setPosition(employeeDto.getPosition());
         employee.setGrade(employeeDto.getGrade());
         employee.setMentor(mentorFromDto);

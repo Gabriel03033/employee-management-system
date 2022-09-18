@@ -3,7 +3,7 @@
 <head th:replace="~{/fragments/layout :: head('Employees')}"></head>
 <body>
 <header th:replace="~{/fragments/layout :: header}"></header>
-<main class="mt-3 mx-auto w-75">
+<main class="mt-3 mx-auto" style="width: 85%">
   <h3>Employees list</h3>
   <div class="my-2 d-flex justify-content-between">
     <a href="/employees/save-employee/-1" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Employee</a>
@@ -19,6 +19,16 @@
   <table class="table table-striped table-bordered">
     <thead class="thead-dark">
     <tr>
+      <th>
+        <a class="thead-link" th:if="${sortField eq ''}"
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=employeeId&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">ID</a>
+        <a class="thead-link" th:if="${sortDirection eq 'asc'}"
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=employeeId&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">ID&ensp;<i
+                th:if="${sortField eq 'employeeId'}" class="fa-solid fa-angle-down"></i></a>
+        <a class="thead-link" th:if="${sortDirection eq 'desc'}"
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=employeeId&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">ID&ensp;<i
+                th:if="${sortField eq 'employeeId'}" class="fa-solid fa-angle-up"></i></a>
+      </th>
       <th>
         <a class="thead-link" th:if="${sortField eq ''}"
            th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=name&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Name</a>
@@ -41,16 +51,16 @@
       </th>
       <th>
         <a class="thead-link" th:if="${sortField eq ''}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=employeeType&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Job
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=jobType&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Job
           Type</a>
         <a class="thead-link" th:if="${sortDirection eq 'asc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=employeeType&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Job
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=jobType&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Job
           Type&ensp;<i
-                  th:if="${sortField eq 'employeeType'}" class="fa-solid fa-angle-down"></i></a>
+                  th:if="${sortField eq 'jobType'}" class="fa-solid fa-angle-down"></i></a>
         <a class="thead-link" th:if="${sortDirection eq 'desc'}"
-           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=employeeType&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Job
+           th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${currentPage} + '&sortField=jobType&sortDirection=' + ${switchedSortDirection} + '&searchedName=' + ${searchedName}}">Job
           Type&ensp;<i
-                  th:if="${sortField eq 'employeeType'}" class="fa-solid fa-angle-up"></i></a>
+                  th:if="${sortField eq 'jobType'}" class="fa-solid fa-angle-up"></i></a>
       </th>
       <th>
         <a class="thead-link" th:if="${sortField eq ''}"
@@ -86,17 +96,18 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="employee: ${employees}">
+    <tr th:each="employee: ${employees}" class="employee-row">
+      <td th:text="${employee.employeeId}"></td>
       <td th:text="${employee.name}"></td>
       <td th:text="${employee.email}"></td>
-      <td th:text="${employee.employeeType}"></td>
+      <td th:text="${employee.jobType}"></td>
       <td th:text="${employee.position}"></td>
       <td th:text="${employee.grade}"></td>
       <td th:text="${employee.mentor.name}"></td>
       <td>
         <a th:href="@{/employees/save-employee/{id}(id=${employee.employeeId})}" class="btn btn-sm btn-secondary"><i class="fa-solid fa-pen"></i>&ensp;Update</a>
-        <a th:href="@{/employees/delete-employee/{id}(id=${employee.employeeId})}" class="btn btn-sm btn-danger delete-button"><i class="fa-solid fa-trash"></i>&ensp;Delete</a>
-        <a th:href="@{/employees/{id}(id=${employee.employeeId})}" class="btn btn-sm btn-info"><i class="fa-solid fa-circle-info"></i>&ensp;View details</a>
+        <a href="" class="btn btn-sm btn-danger delete-button"><i class="fa-solid fa-trash"></i>&ensp;Delete</a>
+        <a th:href="@{/employees/{id}(id=${employee.employeeId})}" class="btn btn-sm btn-info"><i class="fa-solid fa-circle-info"></i>&ensp;Details</a>
       </td>
     </tr>
     </tbody>

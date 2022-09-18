@@ -3,7 +3,7 @@ package com.project.it.employee;
 import com.project.it.experience.Experience;
 import com.project.it.mentor.Mentor;
 import com.project.it.studies.Studies;
-import com.project.it.employee.enums.EmployeeType;
+import com.project.it.employee.enums.JobType;
 import com.project.it.employee.enums.Grade;
 import com.project.it.employee.enums.Position;
 import java.time.LocalDate;
@@ -48,7 +48,7 @@ public class Employee {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     @Enumerated(EnumType.STRING)
-    private EmployeeType employeeType;
+    private JobType jobType;
     @Enumerated(EnumType.STRING)
     private Position position;
     @Enumerated(EnumType.STRING)
@@ -80,7 +80,7 @@ public class Employee {
                 mobile.equals(employee.mobile) &&
                 address.equals(employee.address) &&
                 birthday.equals(employee.birthday) &&
-                employeeType == employee.employeeType &&
+                jobType == employee.jobType &&
                 position == employee.position &&
                 grade == employee.grade &&
                 mentor.equals(employee.mentor) &&
@@ -90,6 +90,6 @@ public class Employee {
 
     @Override
     public int hashCode() {
-        return Objects.hash(employeeId, name, email, password, mobile, address, birthday, employeeType, position, grade, mentor, studies, experiences);
+        return Objects.hash(employeeId, name, email, password, mobile, address, birthday, jobType, position, grade, mentor, studies, experiences);
     }
 }

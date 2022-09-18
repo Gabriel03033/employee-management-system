@@ -28,10 +28,10 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="job-type">Job type <span class="text-danger font-weight-bold">*</span></label>
-                        <select id="job-type" th:field="*{employeeType}" class="custom-select form-control" required>
+                        <select id="job-type" th:field="*{jobType}" class="custom-select form-control" required>
                             <option value="" hidden>---Choose job type---</option>
-                            <option th:each="employeeTypeValue : ${T(com.project.it.employee.enums.EmployeeType).values()}"
-                                    th:text="${employeeTypeValue}" th:value="${employeeTypeValue}"></option>
+                            <option th:each="jobTypeValue : ${T(com.project.it.employee.enums.jobType).values()}"
+                                    th:text="${jobTypeValue}" th:value="${jobTypeValue}"></option>
                         </select>
                         <label for="position" class="mt-3">Position <span class="text-danger font-weight-bold">*</span></label>
                         <select id="position" th:field="*{position}" class="custom-select form-control" required>

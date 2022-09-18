@@ -1,6 +1,6 @@
-package com.project.it.employee;
+package com.project.it.dto;
 
-import com.project.it.employee.enums.EmployeeType;
+import com.project.it.employee.enums.JobType;
 import com.project.it.employee.enums.Grade;
 import com.project.it.employee.enums.Position;
 import com.project.it.experience.Experience;
@@ -25,7 +25,7 @@ public class EmployeeDto {
     private String address;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
-    private EmployeeType employeeType;
+    private JobType jobType;
     private Position position;
     private Grade grade;
     private Long mentorId;
