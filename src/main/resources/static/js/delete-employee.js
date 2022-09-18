@@ -1,51 +1,33 @@
-const employees = document.querySelectorAll(".employee-row");
+const confirmDeleteButton = document.querySelector("#confirm-delete-button")
+const cancelDeleteButton = document.querySelector("#cancel-delete-button")
 const deleteButtons = document.querySelectorAll(".delete-button");
+const modal = document.querySelector(".confirm-delete-modal")
 
-let modal = null;
 let backdrop = null;
 
 for(let index = 0; index < deleteButtons.length; index++) {
-    deleteButtons[index].addEventListener("click", function(event) {
-        event.preventDefault();
-        if (modal != null) return;
-        const employeeRow = employees[index];
-        const employeeId = parseInt(employeeRow.firstElementChild.innerText);
-        console.log("deleting employee with id " + employeeId);
+    deleteButtons[index].addEventListener("click", () => showModalHandler(event, index));
+}
 
-        modal = document.createElement("div");
-        modal.className = "custom-modal";
+function showModalHandler(event, index) {
+ event.preventDefault();
+        const deleteButtonHref = deleteButtons[index].href;
+        const employeeId = parseInt(deleteButtonHref.substring(deleteButtonHref.lastIndexOf("/") + 1));
+        console.log("confirm deleting employee with id " + employeeId);
 
-        const modalText = document.createElement("p");
-        modalText.textContent = "Are you sure you want to delete this employee?";
+        confirmDeleteButton.addEventListener("click", () => confirmDeleteEmployeeById(employeeId));
+        cancelDeleteButton.addEventListener("click", closeModalHandler);
 
-        const modalConfirmDeleteAction = document.createElement("button");
-        modalConfirmDeleteAction.textContent = "Confirm";
-        modalConfirmDeleteAction.className = "btn btn-success";
-        modalConfirmDeleteAction.type = "button";
-        modalConfirmDeleteAction.addEventListener("click", () => confirmDeleteEmployeeById(event, employeeId,employeeRow));
-
-        const modalCancelAction = document.createElement("button");
-        modalCancelAction.textContent = "Cancel";
-        modalCancelAction.className = "btn btn-danger ml-3";
-        modalCancelAction.type = "button";
-        modalCancelAction.addEventListener("click", closeModalHandler);
-
-        modal.append(modalText);
-        modal.append(modalConfirmDeleteAction);
-        modal.append(modalCancelAction);
-
-        document.body.append(modal);
+        modal.classList.remove("d-none");
 
         backdrop = document.createElement("div");
         backdrop.className = "backdrop";
         backdrop.addEventListener("click", closeModalHandler);
 
         document.body.append(backdrop);
-    });
 }
 
-function confirmDeleteEmployeeById(event, employeeId, employeeRow) {
-        event.preventDefault();
+function confirmDeleteEmployeeById(employeeId) {
         fetch('http://localhost:8080/api/employees/' + employeeId, {
                 method: "DELETE",
                 headers: {
@@ -57,8 +39,7 @@ function confirmDeleteEmployeeById(event, employeeId, employeeRow) {
 }
 
 function closeModalHandler() {
-    modal.remove();
-    modal = null;
+    modal.classList.add("d-none");
     backdrop.remove();
     backdrop = null;
 }
