@@ -1,18 +1,18 @@
 package com.project.it.employee;
 
 import com.project.it.dto.EmployeeDto;
-import com.project.it.employee.enums.Grade;
-import com.project.it.employee.enums.JobType;
-import com.project.it.employee.enums.Position;
 import com.project.it.exception.ResourceNotFoundException;
 import com.project.it.mentor.Mentor;
 import com.project.it.mentor.MentorRepository;
 import com.project.it.studies.Studies;
 import com.project.it.studies.StudiesRepository;
-import java.time.LocalDate;
+import com.project.it.utils.EmployeeUtils;
+import com.project.it.utils.MentorUtils;
+import com.project.it.utils.StudiesUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,56 +43,18 @@ class EmployeeServiceImplTest {
     @Spy
     private ModelMapper modelMapper;
 
-    Mentor mentorStefanPetrescu = Mentor.builder()
-            .mentorId(1L)
-            .name("Stefan Petrescu")
-            .email("stefanpetrescu@email.com")
-            .password("stefanpetrescu")
-            .mobile("1000000001")
-            .address("mentor_address1")
-            .birthday(LocalDate.of(1997, 1, 1))
-            .available(true)
-            .numberOfEmployees(5)
-            .build();
+    private Employee employeeGeorgeBacalu;
+    private Employee employeeGabrielFaur;
+    private Mentor mentorStefanPetrescu;
+    private Studies studiesAutomatics;
 
-    Studies studiesAutomatics = Studies.builder()
-            .studiesId(1L)
-            .university("University of Transylvania")
-            .faculty("Faculty of Electrical Engineering and Computer Science")
-            .major("Automatic and Applied Computer Science")
-            .build();
-
-    Employee employeeGeorgeBacalu = Employee.builder()
-            .employeeId(1L)
-            .name("George Bacalu")
-            .email("georgebacalu@email.com")
-            .password("georgebacalu")
-            .mobile("0000000001")
-            .address("employee_address1")
-            .birthday(LocalDate.of(2001, 3, 8))
-            .jobType(JobType.FULL_TIME)
-            .position(Position.BACKEND)
-            .grade(Grade.JUNIOR)
-            .mentor(mentorStefanPetrescu)
-            .studies(studiesAutomatics)
-            .experiences(new ArrayList<>())
-            .build();
-
-    Employee employeeGabrielFaur = Employee.builder()
-            .employeeId(2L)
-            .name("Gabriel Faur")
-            .email("gabrielfaur@email.com")
-            .password("gabrielfaur")
-            .mobile("0000000002")
-            .address("employee_address2")
-            .birthday(LocalDate.of(2003, 1, 20))
-            .jobType(JobType.FULL_TIME)
-            .position(Position.BACKEND)
-            .grade(Grade.JUNIOR)
-            .mentor(mentorStefanPetrescu)
-            .studies(studiesAutomatics)
-            .experiences(new ArrayList<>())
-            .build();
+    @BeforeEach
+    void setUp() {
+        employeeGeorgeBacalu = EmployeeUtils.getEmployeeGeorgeBacalu();
+        employeeGabrielFaur = EmployeeUtils.getEmployeeGabrielFaur();
+        mentorStefanPetrescu = MentorUtils.getMentorStefanPetrescu();
+        studiesAutomatics = StudiesUtils.getStudiesAutomatics();
+    }
 
     @Test
     void getAllEmployees_withPopulatedListOfEmployees_returnsEmployees() {
