@@ -4,6 +4,8 @@ import com.project.it.dto.EmployeeDto;
 import com.project.it.dto.SearchDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final ModelMapper modelMapper;
 
     @GetMapping
     public String viewAllEmployeesPage(Model model) {
@@ -65,10 +68,12 @@ public class EmployeeController {
                                           @RequestParam int pageSize, @RequestParam int pageNumber,
                                           @RequestParam(required = false) String sortField, @RequestParam(required = false) String sortDirection,
                                           @RequestParam(required = false) String searchedName) {
-        Page<Employee> filteredEmployeesPage = employeeService.getFilteredEmployeesByName(pageNumber, pageSize, sortField, sortDirection, searchedName);
-        Page<Employee> allEmployeesPage = employeeService.getEmployeesPerPage(pageNumber, pageSize, sortField, sortDirection);
-        List<Employee> filteredEmployeesPageContent = filteredEmployeesPage.getContent();
-        List<Employee> allEmployeesPageContent = allEmployeesPage.getContent();
+        Page<EmployeeDto> filteredEmployeesPage = employeeService.getFilteredEmployeesByName(pageNumber, pageSize, sortField, sortDirection, searchedName);
+        Page<EmployeeDto> allEmployeesPage = employeeService.getEmployeesPerPage(pageNumber, pageSize, sortField, sortDirection);
+        List<EmployeeDto> filteredEmployeesPageContentDto = filteredEmployeesPage.getContent();
+        List<EmployeeDto> allEmployeesPageContentDto = allEmployeesPage.getContent();
+        List<Employee> filteredEmployeesPageContent = modelMapper.map(filteredEmployeesPageContentDto, new TypeToken<List<Employee>>() {}.getType());
+        List<Employee> allEmployeesPageContent = modelMapper.map(allEmployeesPageContentDto, new TypeToken<List<Employee>>() {}.getType());
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("sortField", sortField);

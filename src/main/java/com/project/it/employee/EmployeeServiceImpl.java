@@ -86,17 +86,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Page<Employee> getEmployeesPerPage(int pageNumber, int pageSize, String sortField, String sortDirection) {
+    public Page<EmployeeDto> getEmployeesPerPage(int pageNumber, int pageSize, String sortField, String sortDirection) {
         Pageable pageable = getPageRequest(pageNumber, pageSize, sortField, sortDirection);
         Page<Employee> allEmployeesPage = employeeRepository.findAll(pageable);
-        return allEmployeesPage;
+        Page<EmployeeDto> allEmployeesPageDto = modelMapper.map(allEmployeesPage, new TypeToken<Page<EmployeeDto>>() {}.getType());
+        return allEmployeesPageDto;
     }
 
     @Override
-    public Page<Employee> getFilteredEmployeesByName(int pageNumber, int pageSize, String sortField, String sortDirection, String searchedName) {
+    public Page<EmployeeDto> getFilteredEmployeesByName(int pageNumber, int pageSize, String sortField, String sortDirection, String searchedName) {
         Pageable pageable = getPageRequest(pageNumber, pageSize, sortField, sortDirection);
         Page<Employee> filteredEmployeesPage = employeeRepository.findByNameContaining(searchedName, pageable);
-        return filteredEmployeesPage;
+        Page<EmployeeDto> FilteredEmployeesPageDto = modelMapper.map(filteredEmployeesPage, new TypeToken<Page<EmployeeDto>>() {}.getType());
+        return FilteredEmployeesPageDto;
     }
 
     private Pageable getPageRequest(int pageNumber, int pageSize, String sortField, String sortDirection) {

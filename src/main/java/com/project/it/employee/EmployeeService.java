@@ -15,7 +15,7 @@ public interface EmployeeService {
 
     void deleteEmployeeById(Long employeeId);
 
-    Page<Employee> getEmployeesPerPage(int pageNumber, int pageSize, String sortField, String sortDirection);
+    Page<EmployeeDto> getEmployeesPerPage(int pageNumber, int pageSize, String sortField, String sortDirection);
 
-    Page<Employee> getFilteredEmployeesByName(int pageNumber, int pageSize, String sortField, String sortDirection, String searchedName);
+    Page<EmployeeDto> getFilteredEmployeesByName(int pageNumber, int pageSize, String sortField, String sortDirection, String searchedName);
 }
