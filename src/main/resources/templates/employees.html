@@ -131,7 +131,7 @@
             <a class="page-link" th:unless="${currentPage != page}" th:disabled>[[${page}]]</a>
           </li>
         </span>
-        <span th:if="${currentPage > 1 and totalPages > 3}" th:each="page:${#numbers.sequence(currentPage - 1, currentPage + 1)}">
+        <span th:if="${currentPage > 1 and currentPage != totalPages and totalPages > 3}" th:each="page:${#numbers.sequence(currentPage - 1, currentPage + 1)}">
           <li class="page-item">
             <a class="page-link" th:if="${currentPage != page}"
                th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>
@@ -145,7 +145,7 @@
             <a class="page-link" th:unless="${currentPage != page}" th:disabled>[[${page}]]</a>
           </li>
         </span>
-        <span th:if="${currentPage > totalPages - 3 and totalPages > 3}" th:each="page:${#numbers.sequence(totalPages - 2, totalPages)}">
+        <span th:if="${currentPage == totalPages}" th:each="page:${#numbers.sequence(totalPages - 2, totalPages)}">
           <li class="page-item">
             <a class="page-link" th:if="${currentPage != page}"
                th:href="@{'/employees/page?pageSize=' + ${pageSize} + '&pageNumber=' + ${page} + '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + '&searchedName=' + ${searchedName}}">[[${page}]]</a>

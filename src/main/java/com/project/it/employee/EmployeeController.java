@@ -3,18 +3,19 @@ package com.project.it.employee;
 import com.project.it.dto.EmployeeDto;
 import com.project.it.dto.SearchDto;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -51,7 +52,7 @@ public class EmployeeController {
         return "redirect:/employees";
     }
 
-    @RequestMapping(value = "/delete-employee/{employeeId}", method = {RequestMethod.DELETE, RequestMethod.GET})
+    @DeleteMapping("/delete-employee/{employeeId}")
     public String deleteEmployeeById(@PathVariable Long employeeId) {
         employeeService.deleteEmployeeById(employeeId);
         return "redirect:/employees";
@@ -66,8 +67,8 @@ public class EmployeeController {
     @GetMapping("/page")
     public String findEmployeesPagination(Model model,
                                           @RequestParam int pageSize, @RequestParam int pageNumber,
-                                          @RequestParam(required = false) String sortField, @RequestParam(required = false) String sortDirection,
-                                          @RequestParam(required = false) String searchedName) {
+                                          @RequestParam String sortField, @RequestParam String sortDirection,
+                                          @RequestParam String searchedName) {
         Page<EmployeeDto> filteredEmployeesPage = employeeService.getFilteredEmployeesByName(pageNumber, pageSize, sortField, sortDirection, searchedName);
         Page<EmployeeDto> allEmployeesPage = employeeService.getEmployeesPerPage(pageNumber, pageSize, sortField, sortDirection);
         List<EmployeeDto> filteredEmployeesPageContentDto = filteredEmployeesPage.getContent();
@@ -97,18 +98,16 @@ public class EmployeeController {
     @PostMapping("/page")
     public String getSearchResult(Model model,
                                   @RequestParam int pageSize, @RequestParam int pageNumber,
-                                  @RequestParam(required = false) String sortField, @RequestParam(required = false) String sortDirection,
-                                  @RequestParam(required = false) String searchedName,
-                                  @ModelAttribute SearchDto searchDto) {
-        searchedName = "";
+                                  @RequestParam String sortField, @RequestParam String sortDirection,
+                                  @RequestParam("searchedName") Optional<String> searchedName, @ModelAttribute SearchDto searchDto) {
+        String searchedNameValue = searchedName.isPresent() ? searchDto.getName() : "";
         String sortParams = "";
         if (sortField == null || sortField.isBlank()) {
             sortField = "";
             sortDirection = "";
             sortParams = "&sortField=" + sortField + "&sortDirection=" +sortDirection;
         }
-        searchedName = searchDto.getName();
-        findEmployeesPagination(model, pageSize, pageNumber, sortField, sortDirection, searchedName);
-        return "redirect:/employees/page?pageSize=" + pageSize + "&pageNumber=" + pageNumber + sortParams + "&searchedName=" + searchedName;
+        findEmployeesPagination(model, pageSize, pageNumber, sortField, sortDirection, searchedNameValue);
+        return "redirect:/employees/page?pageSize=" + pageSize + "&pageNumber=" + pageNumber + sortParams + "&searchedName=" + searchedNameValue;
     }
 }
