@@ -51,12 +51,15 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<EmployeeDto>> getEmployeesPerPage(@RequestParam int pageSize, @RequestParam int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection) {
+    public ResponseEntity<Page<EmployeeDto>> getEmployeesPerPage(@RequestParam int pageSize, @RequestParam int pageNumber,
+                                                                 @RequestParam String sortField, @RequestParam String sortDirection) {
         return new ResponseEntity<>(employeeService.getEmployeesPerPage(pageNumber, pageSize, sortField, sortDirection), HttpStatus.OK);
     }
 
     @GetMapping("/search/page")
-    public ResponseEntity<Page<EmployeeDto>> getFilteredEmployeesByName(@RequestParam int pageSize, @RequestParam int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection, @RequestParam String searchedName) {
+    public ResponseEntity<Page<EmployeeDto>> getFilteredEmployeesByName(@RequestParam int pageSize, @RequestParam int pageNumber,
+                                                                        @RequestParam String sortField, @RequestParam String sortDirection,
+                                                                        @RequestParam String searchedName) {
         return new ResponseEntity<>(employeeService.getFilteredEmployeesByName(pageNumber, pageSize, sortField, sortDirection, searchedName), HttpStatus.OK);
     }
 }
