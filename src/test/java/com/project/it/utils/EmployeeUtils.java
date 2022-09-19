@@ -47,4 +47,40 @@ public class EmployeeUtils {
                 .experiences(new ArrayList<>())
                 .build();
     }
+
+    public static Employee getEmployeeGabrielFirea() {
+        return Employee.builder()
+                .employeeId(3L)
+                .name("Gabriel Firea")
+                .email("gabrielfirea@email.com")
+                .password("gabrielfirea")
+                .mobile("0745351268")
+                .address("employee_address3")
+                .birthday(LocalDate.of(2002, 1, 1))
+                .jobType(JobType.FULL_TIME)
+                .position(Position.BACKEND)
+                .grade(Grade.JUNIOR)
+                .mentor(MentorUtils.getMentorStefanPetrescu())
+                .studies(StudiesUtils.getStudiesAutomatics())
+                .experiences(new ArrayList<>())
+                .build();
+    }
+
+    public static Employee getEmployeeAndreiMares() {
+        return Employee.builder()
+                .employeeId(4L)
+                .name("Andrei Mares")
+                .email("andreimares@email.com")
+                .password("andreimares")
+                .mobile("0748762174")
+                .address("employee_address4")
+                .birthday(LocalDate.of(2003, 1, 1))
+                .jobType(JobType.FULL_TIME)
+                .position(Position.DEVOPS)
+                .grade(Grade.JUNIOR)
+                .mentor(MentorUtils.getMentorStefanPetrescu())
+                .studies(StudiesUtils.getStudiesAutomatics())
+                .experiences(new ArrayList<>())
+                .build();
+    }
 }
