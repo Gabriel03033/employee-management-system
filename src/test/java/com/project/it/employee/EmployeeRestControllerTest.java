@@ -55,13 +55,21 @@ class EmployeeRestControllerTest {
     }
 
     @Test
-    void getEmployeeById_returnsEmployee() {
+    void getEmployeeById_withValidEmployeeId_returnsEmployee() {
         EmployeeDto employeeGeorgeBacaluDto = modelMapper.map(employeeGeorgeBacalu, new TypeToken<EmployeeDto>() {}.getType());
         given(employeeService.getEmployeeById(1L)).willReturn(employeeGeorgeBacaluDto);
         ResponseEntity<EmployeeDto> response = employeeRestController.getEmployeeById(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(employeeGeorgeBacaluDto, response.getBody());
+    }
+
+    @Test
+    void getEmployeeById_withInvalidEmployeeId_throwsException() {
+        ResponseEntity<EmployeeDto> response = employeeRestController.getEmployeeById(1L);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNull(response.getBody());
     }
 
     @Test
@@ -75,7 +83,7 @@ class EmployeeRestControllerTest {
     }
 
     @Test
-    void updateEmployeeById_shouldSucceed() {
+    void updateEmployeeById_withValidEmployeeId_shouldSucceed() {
         employeeGabrielFaur.setEmployeeId(1L);
         EmployeeDto employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, new TypeToken<EmployeeDto>() {}.getType());
         given(employeeService.updateEmployeeById(employeeGabrielFaurDto, 1L)).willReturn(employeeGabrielFaurDto);
@@ -86,11 +94,20 @@ class EmployeeRestControllerTest {
     }
 
     @Test
+    void updateEmployeeById_withInvalidEmployeeId_throwsException() {
+        employeeGabrielFaur.setEmployeeId(1L);
+        EmployeeDto employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, new TypeToken<EmployeeDto>() {}.getType());
+        ResponseEntity<EmployeeDto> response = employeeRestController.updateEmployeeById(employeeGabrielFaurDto, 1L);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
     void deleteEmployeeById_shouldSucceed() {
         ResponseEntity<Map<String, String>> response = employeeRestController.deleteEmployeeById(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(Map.of("message", "Employee deleted successfully!"), response.getBody());
-
     }
 }

@@ -26,6 +26,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class EmployeeServiceImplTest {
@@ -77,10 +80,10 @@ class EmployeeServiceImplTest {
 
     @Test
     void getEmployeeById_withValidEmployeeId_returnsEmployee() {
-        Optional<Employee> employee = Optional.ofNullable(employeeGeorgeBacalu);
-        given(employeeRepository.findById(1L)).willReturn(employee);
+        Optional<Employee> employeeGeorgeBacaluOptional = Optional.ofNullable(employeeGeorgeBacalu);
+        given(employeeRepository.findById(1L)).willReturn(employeeGeorgeBacaluOptional);
 
-        EmployeeDto employeeDto = modelMapper.map(employee, new TypeToken<EmployeeDto>() {}.getType());
+        EmployeeDto employeeDto = modelMapper.map(employeeGeorgeBacalu, new TypeToken<EmployeeDto>() {}.getType());
         EmployeeDto result = employeeService.getEmployeeById(1L);
         assertEquals(employeeDto, result);
     }
@@ -102,13 +105,13 @@ class EmployeeServiceImplTest {
 
     @Test
     void updateEmployeeById_shouldSucceed() {
-        Optional<Employee> employee1 = Optional.ofNullable(employeeGeorgeBacalu);
-        Optional<Mentor> mentor = Optional.ofNullable(mentorStefanPetrescu);
-        Optional<Studies> studies = Optional.ofNullable(studiesAutomatics);
+        Optional<Employee> employeeGeorgeBacaluOptional = Optional.ofNullable(employeeGeorgeBacalu);
+        Optional<Mentor> mentorStefanPetrescuOptional = Optional.ofNullable(mentorStefanPetrescu);
+        Optional<Studies> studiesAutomaticsOptional = Optional.ofNullable(studiesAutomatics);
 
-        given(employeeRepository.findById(1L)).willReturn(employee1);
-        given(mentorRepository.findById(1L)).willReturn(mentor);
-        given(studiesRepository.findById(1L)).willReturn(studies);
+        given(employeeRepository.findById(1L)).willReturn(employeeGeorgeBacaluOptional);
+        given(mentorRepository.findById(1L)).willReturn(mentorStefanPetrescuOptional);
+        given(studiesRepository.findById(1L)).willReturn(studiesAutomaticsOptional);
 
         employeeGabrielFaur.setEmployeeId(1L);
         given(employeeRepository.save(any())).willReturn(employeeGabrielFaur);
@@ -127,8 +130,8 @@ class EmployeeServiceImplTest {
 
     @Test
     void updateEmployeeById_withInvalidMentorId_throwException() {
-        Optional<Employee> employee1 = Optional.ofNullable(employeeGeorgeBacalu);
-        given(employeeRepository.findById(1L)).willReturn(employee1);
+        Optional<Employee> employeeGeorgeBacaluOptional = Optional.ofNullable(employeeGeorgeBacalu);
+        given(employeeRepository.findById(1L)).willReturn(employeeGeorgeBacaluOptional);
 
         EmployeeDto employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, new TypeToken<EmployeeDto>() {}.getType());
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> employeeService.updateEmployeeById(employeeGabrielFaurDto, 1L));
@@ -137,11 +140,11 @@ class EmployeeServiceImplTest {
 
     @Test
     void updateEmployeeById_withInvalidStudiesId_throwException() {
-        Optional<Employee> employee1 = Optional.ofNullable(employeeGeorgeBacalu);
-        Optional<Mentor> mentor = Optional.ofNullable(mentorStefanPetrescu);
+        Optional<Employee> employeeGeorgeBacaluOptional = Optional.ofNullable(employeeGeorgeBacalu);
+        Optional<Mentor> mentorStefanPetrescuOptional = Optional.ofNullable(mentorStefanPetrescu);
 
-        given(employeeRepository.findById(1L)).willReturn(employee1);
-        given(mentorRepository.findById(1L)).willReturn(mentor);
+        given(employeeRepository.findById(1L)).willReturn(employeeGeorgeBacaluOptional);
+        given(mentorRepository.findById(1L)).willReturn(mentorStefanPetrescuOptional);
 
         EmployeeDto employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, new TypeToken<EmployeeDto>() {}.getType());
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> employeeService.updateEmployeeById(employeeGabrielFaurDto, 1L));
@@ -150,15 +153,17 @@ class EmployeeServiceImplTest {
 
     @Test
     void deleteEmployeeById_withValidEmployeeId_shouldSucceed() {
-        Optional<Employee> employee1 = Optional.ofNullable(employeeGeorgeBacalu);
-        given(employeeRepository.findById(1L)).willReturn(employee1);
+        Optional<Employee> employeeGeorgeBacaluOptional = Optional.ofNullable(employeeGeorgeBacalu);
+        given(employeeRepository.findById(1L)).willReturn(employeeGeorgeBacaluOptional);
 
         employeeService.deleteEmployeeById(1L);
+        verify(employeeRepository, times(1)).delete(employeeGeorgeBacalu);
     }
 
     @Test
     void deleteEmployeeById_withInvalidEmployeeId_throwException() {
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> employeeService.deleteEmployeeById(1L));
         assertEquals("No employee found with id: " + 1L, exception.getMessage());
+        verify(employeeRepository, never()).delete(employeeGeorgeBacalu);
     }
 }
