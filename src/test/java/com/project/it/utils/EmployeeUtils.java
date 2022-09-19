@@ -6,6 +6,7 @@ import com.project.it.employee.enums.JobType;
 import com.project.it.employee.enums.Position;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -82,5 +83,14 @@ public class EmployeeUtils {
                 .studies(StudiesUtils.getStudiesAutomatics())
                 .experiences(new ArrayList<>())
                 .build();
+    }
+
+    public static List<Employee> getAllEmployees() {
+        List<Employee> employees = new ArrayList<>();
+        employees.add(EmployeeUtils.getEmployeeGeorgeBacalu());
+        employees.add(EmployeeUtils.getEmployeeGabrielFaur());
+        employees.add(EmployeeUtils.getEmployeeGabrielFirea());
+        employees.add(EmployeeUtils.getEmployeeAndreiMares());
+        return employees;
     }
 }

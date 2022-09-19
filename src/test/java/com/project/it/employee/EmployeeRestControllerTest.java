@@ -20,7 +20,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,15 +38,19 @@ class EmployeeRestControllerTest {
 
     private Employee employeeGeorgeBacalu;
     private Employee employeeGabrielFaur;
-    private Employee employeeGabrielFirea;
-    private Employee employeeAndreiMares;
+    private List<Employee> allEmployees;
+
+    private EmployeeDto employeeGeorgeBacaluDto;
+    private EmployeeDto employeeGabrielFaurDto;
 
     @BeforeEach
     void setUp() {
         employeeGeorgeBacalu = EmployeeUtils.getEmployeeGeorgeBacalu();
         employeeGabrielFaur = EmployeeUtils.getEmployeeGabrielFaur();
-        employeeGabrielFirea = EmployeeUtils.getEmployeeGabrielFirea();
-        employeeAndreiMares = EmployeeUtils.getEmployeeAndreiMares();
+        allEmployees = EmployeeUtils.getAllEmployees();
+
+        employeeGeorgeBacaluDto = modelMapper.map(employeeGeorgeBacalu, EmployeeDto.class);
+        employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, EmployeeDto.class);
     }
 
     @Test
@@ -53,8 +58,8 @@ class EmployeeRestControllerTest {
         List<Employee> employees = new ArrayList<>();
         employees.add(employeeGeorgeBacalu);
         employees.add(employeeGabrielFaur);
-        List<EmployeeDto> employeeDtos = modelMapper.map(employees, new TypeToken<List<EmployeeDto>>() {
-        }.getType());
+        List<EmployeeDto> employeeDtos = modelMapper.map(employees, new TypeToken<List<EmployeeDto>>() {}.getType());
+
         given(employeeService.getAllEmployees()).willReturn(employeeDtos);
         ResponseEntity<List<EmployeeDto>> response = employeeRestController.getAllEmployees();
 
@@ -64,8 +69,6 @@ class EmployeeRestControllerTest {
 
     @Test
     void getEmployeeById_withValidEmployeeId_returnsEmployee() {
-        EmployeeDto employeeGeorgeBacaluDto = modelMapper.map(employeeGeorgeBacalu, new TypeToken<EmployeeDto>() {
-        }.getType());
         given(employeeService.getEmployeeById(1L)).willReturn(employeeGeorgeBacaluDto);
         ResponseEntity<EmployeeDto> response = employeeRestController.getEmployeeById(1L);
 
@@ -83,8 +86,6 @@ class EmployeeRestControllerTest {
 
     @Test
     void addEmployee_shouldSucceed() {
-        EmployeeDto employeeGeorgeBacaluDto = modelMapper.map(employeeGeorgeBacalu, new TypeToken<EmployeeDto>() {
-        }.getType());
         given(employeeService.addEmployee(employeeGeorgeBacaluDto)).willReturn(employeeGeorgeBacaluDto);
         ResponseEntity<EmployeeDto> response = employeeRestController.addEmployee(employeeGeorgeBacaluDto);
 
@@ -94,9 +95,7 @@ class EmployeeRestControllerTest {
 
     @Test
     void updateEmployeeById_withValidEmployeeId_shouldSucceed() {
-        employeeGabrielFaur.setEmployeeId(1L);
-        EmployeeDto employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, new TypeToken<EmployeeDto>() {
-        }.getType());
+        employeeGabrielFaurDto.setEmployeeId(1L);
         given(employeeService.updateEmployeeById(employeeGabrielFaurDto, 1L)).willReturn(employeeGabrielFaurDto);
         ResponseEntity<EmployeeDto> response = employeeRestController.updateEmployeeById(employeeGabrielFaurDto, 1L);
 
@@ -107,8 +106,6 @@ class EmployeeRestControllerTest {
     @Test
     void updateEmployeeById_withInvalidEmployeeId_throwsException() {
         employeeGabrielFaur.setEmployeeId(1L);
-        EmployeeDto employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, new TypeToken<EmployeeDto>() {
-        }.getType());
         ResponseEntity<EmployeeDto> response = employeeRestController.updateEmployeeById(employeeGabrielFaurDto, 1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -125,13 +122,7 @@ class EmployeeRestControllerTest {
 
     @Test
     void getEmployeesPerPage_shouldSucceed() {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(employeeGeorgeBacalu);
-        employees.add(employeeGabrielFaur);
-        employees.add(employeeGabrielFirea);
-        employees.add(employeeAndreiMares);
-        List<EmployeeDto> employeeDtos = modelMapper.map(employees, new TypeToken<List<EmployeeDto>>() {
-        }.getType());
+        List<EmployeeDto> employeeDtos = modelMapper.map(allEmployees, new TypeToken<List<EmployeeDto>>() {}.getType());
         given(employeeService.getAllEmployees()).willReturn(employeeDtos);
         ResponseEntity<List<EmployeeDto>> responseEmployeeDtos = employeeRestController.getAllEmployees();
         List<EmployeeDto> finalEmployeeDtos = Objects.requireNonNull(responseEmployeeDtos.getBody());
@@ -154,13 +145,7 @@ class EmployeeRestControllerTest {
 
     @Test
     void getFilteredEmployeesByName_shouldSucceed() {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(employeeGeorgeBacalu);
-        employees.add(employeeGabrielFaur);
-        employees.add(employeeGabrielFirea);
-        employees.add(employeeAndreiMares);
-        List<EmployeeDto> employeeDtos = modelMapper.map(employees, new TypeToken<List<EmployeeDto>>() {
-        }.getType());
+        List<EmployeeDto> employeeDtos = modelMapper.map(allEmployees, new TypeToken<List<EmployeeDto>>() {}.getType());
         given(employeeService.getAllEmployees()).willReturn(employeeDtos);
         ResponseEntity<List<EmployeeDto>> responseEmployeeDtos = employeeRestController.getAllEmployees();
         List<EmployeeDto> finalEmployeeDtos = Objects.requireNonNull(responseEmployeeDtos.getBody());

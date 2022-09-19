@@ -53,19 +53,23 @@ class EmployeeServiceImplTest {
 
     private Employee employeeGeorgeBacalu;
     private Employee employeeGabrielFaur;
-    private Employee employeeGabrielFirea;
-    private Employee employeeAndreiMares;
+    private List<Employee> allEmployees;
     private Mentor mentorStefanPetrescu;
     private Studies studiesAutomatics;
+
+    private EmployeeDto employeeGeorgeBacaluDto;
+    private EmployeeDto employeeGabrielFaurDto;
 
     @BeforeEach
     void setUp() {
         employeeGeorgeBacalu = EmployeeUtils.getEmployeeGeorgeBacalu();
         employeeGabrielFaur = EmployeeUtils.getEmployeeGabrielFaur();
-        employeeGabrielFirea = EmployeeUtils.getEmployeeGabrielFirea();
-        employeeAndreiMares = EmployeeUtils.getEmployeeAndreiMares();
+        allEmployees = EmployeeUtils.getAllEmployees();
         mentorStefanPetrescu = MentorUtils.getMentorStefanPetrescu();
         studiesAutomatics = StudiesUtils.getStudiesAutomatics();
+
+        employeeGeorgeBacaluDto = modelMapper.map(employeeGeorgeBacalu, EmployeeDto.class);
+        employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, EmployeeDto.class);
     }
 
     @Test
@@ -75,8 +79,7 @@ class EmployeeServiceImplTest {
         employees.add(employeeGabrielFaur);
         given(employeeRepository.findAll()).willReturn(employees);
 
-        List<EmployeeDto> employeeDtos = modelMapper.map(employees, new TypeToken<List<EmployeeDto>>() {
-        }.getType());
+        List<EmployeeDto> employeeDtos = modelMapper.map(employees, new TypeToken<List<EmployeeDto>>() {}.getType());
         List<EmployeeDto> result = employeeService.getAllEmployees();
 
         assertEquals(employeeDtos, result);
@@ -93,10 +96,8 @@ class EmployeeServiceImplTest {
         Optional<Employee> employeeGeorgeBacaluOptional = Optional.ofNullable(employeeGeorgeBacalu);
         given(employeeRepository.findById(1L)).willReturn(employeeGeorgeBacaluOptional);
 
-        EmployeeDto employeeDto = modelMapper.map(employeeGeorgeBacalu, new TypeToken<EmployeeDto>() {
-        }.getType());
         EmployeeDto result = employeeService.getEmployeeById(1L);
-        assertEquals(employeeDto, result);
+        assertEquals(employeeGeorgeBacaluDto, result);
     }
 
     @Test
@@ -109,8 +110,6 @@ class EmployeeServiceImplTest {
     void addEmployee_shouldSucceed() {
         given(employeeRepository.save(any())).willReturn(employeeGeorgeBacalu);
 
-        EmployeeDto employeeGeorgeBacaluDto = modelMapper.map(employeeGeorgeBacalu, new TypeToken<EmployeeDto>() {
-        }.getType());
         EmployeeDto result = employeeService.addEmployee(employeeGeorgeBacaluDto);
         assertEquals(employeeGeorgeBacaluDto, result);
     }
@@ -126,18 +125,15 @@ class EmployeeServiceImplTest {
         given(studiesRepository.findById(1L)).willReturn(studiesAutomaticsOptional);
 
         employeeGabrielFaur.setEmployeeId(1L);
-        given(employeeRepository.save(any())).willReturn(employeeGabrielFaur);
+        given(employeeRepository.save(employeeGabrielFaur)).willReturn(employeeGabrielFaur);
 
-        EmployeeDto employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, new TypeToken<EmployeeDto>() {
-        }.getType());
+        employeeGabrielFaurDto.setEmployeeId(1L);
         EmployeeDto result = employeeService.updateEmployeeById(employeeGabrielFaurDto, 1L);
         assertEquals(employeeGabrielFaurDto, result);
     }
 
     @Test
     void updateEmployeeById_withInvalidEmployeeId_throwException() {
-        EmployeeDto employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, new TypeToken<EmployeeDto>() {
-        }.getType());
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> employeeService.updateEmployeeById(employeeGabrielFaurDto, 1L));
         assertEquals("No employee found with id: " + 1L, exception.getMessage());
     }
@@ -147,8 +143,6 @@ class EmployeeServiceImplTest {
         Optional<Employee> employeeGeorgeBacaluOptional = Optional.ofNullable(employeeGeorgeBacalu);
         given(employeeRepository.findById(1L)).willReturn(employeeGeorgeBacaluOptional);
 
-        EmployeeDto employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, new TypeToken<EmployeeDto>() {
-        }.getType());
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> employeeService.updateEmployeeById(employeeGabrielFaurDto, 1L));
         assertEquals("No mentor found with id: " + 1L, exception.getMessage());
     }
@@ -161,8 +155,6 @@ class EmployeeServiceImplTest {
         given(employeeRepository.findById(1L)).willReturn(employeeGeorgeBacaluOptional);
         given(mentorRepository.findById(1L)).willReturn(mentorStefanPetrescuOptional);
 
-        EmployeeDto employeeGabrielFaurDto = modelMapper.map(employeeGabrielFaur, new TypeToken<EmployeeDto>() {
-        }.getType());
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> employeeService.updateEmployeeById(employeeGabrielFaurDto, 1L));
         assertEquals("No studies found with id: " + 1L, exception.getMessage());
     }
@@ -185,25 +177,18 @@ class EmployeeServiceImplTest {
 
     @Test
     void getEmployeesPerPage_shouldReturnEmployeesOnPage() {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(employeeGeorgeBacalu);
-        employees.add(employeeGabrielFaur);
-        employees.add(employeeGabrielFirea);
-        employees.add(employeeAndreiMares);
-        given(employeeRepository.findAll()).willReturn(employees);
+        given(employeeRepository.findAll()).willReturn(allEmployees);
         List<EmployeeDto> employeeDtos = employeeService.getAllEmployees();
 
         Pageable firstPageTwoRecordsSortByNameAsc = PageRequest.of(0, 2, Sort.by("name").ascending());
         List<EmployeeDto> firstPageEmployeeDtosContent = employeeDtos.subList(0, 1);
         Page<EmployeeDto> firstPageEmployeeDtos = new PageImpl<>(firstPageEmployeeDtosContent);
-        Page<Employee> firstPageEmployees = modelMapper.map(firstPageEmployeeDtos, new TypeToken<Page<Employee>>() {
-        }.getType());
+        Page<Employee> firstPageEmployees = modelMapper.map(firstPageEmployeeDtos, new TypeToken<Page<Employee>>() {}.getType());
 
         Pageable secondPageOneRecordSortByNameAsc = PageRequest.of(1, 2, Sort.by("name").ascending());
         List<EmployeeDto> secondPageEmployeeDtosContent = employeeDtos.subList(2, 3);
         Page<EmployeeDto> secondPageEmployeeDtos = new PageImpl<>(secondPageEmployeeDtosContent);
-        Page<Employee> secondPageEmployees = modelMapper.map(secondPageEmployeeDtos, new TypeToken<Page<Employee>>() {
-        }.getType());
+        Page<Employee> secondPageEmployees = modelMapper.map(secondPageEmployeeDtos, new TypeToken<Page<Employee>>() {}.getType());
 
         given(employeeRepository.findAll(firstPageTwoRecordsSortByNameAsc)).willReturn(firstPageEmployees);
         Page<EmployeeDto> resultPage1 = employeeService.getEmployeesPerPage(1, 2, "name", "asc");
@@ -216,29 +201,22 @@ class EmployeeServiceImplTest {
 
     @Test
     void getFilteredEmployeesByName_shouldReturnFilteredEmployeeByNaeOnPage() {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(employeeGeorgeBacalu);
-        employees.add(employeeGabrielFaur);
-        employees.add(employeeGabrielFirea);
-        employees.add(employeeAndreiMares);
-        given(employeeRepository.findAll()).willReturn(employees);
+        given(employeeRepository.findAll()).willReturn(allEmployees);
         List<EmployeeDto> employeeDtos = employeeService.getAllEmployees();
 
-        Pageable firstPageTwoRecordsSortByNameAscSearchByName = PageRequest.of(0, 2);
+        Pageable firstPageTwoRecordsSearchByName = PageRequest.of(0, 2);
         List<EmployeeDto> firstPageEmployeeDtosContent = List.of(employeeDtos.get(1));
         Page<EmployeeDto> firstPageEmployeeDtos = new PageImpl<>(firstPageEmployeeDtosContent);
-        Page<Employee> firstPageEmployees = modelMapper.map(firstPageEmployeeDtos, new TypeToken<Page<Employee>>() {
-        }.getType());
+        Page<Employee> firstPageEmployees = modelMapper.map(firstPageEmployeeDtos, new TypeToken<Page<Employee>>() {}.getType());
 
-        Pageable secondPageOneRecordSortByNameAscSearchByName = PageRequest.of(1, 2);
+        Pageable secondPageOneRecordSearchByName = PageRequest.of(1, 2);
         List<EmployeeDto> secondPageEmployeeDtosContent = List.of(employeeDtos.get(2));
         Page<EmployeeDto> secondPageEmployeeDtos = new PageImpl<>(secondPageEmployeeDtosContent);
-        Page<Employee> secondPageEmployees = modelMapper.map(secondPageEmployeeDtos, new TypeToken<Page<Employee>>() {
-        }.getType());
+        Page<Employee> secondPageEmployees = modelMapper.map(secondPageEmployeeDtos, new TypeToken<Page<Employee>>() {}.getType());
 
-        given(employeeRepository.findByNameContaining("Gabriel", firstPageTwoRecordsSortByNameAscSearchByName)).willReturn(firstPageEmployees);
+        given(employeeRepository.findByNameContaining("Gabriel", firstPageTwoRecordsSearchByName)).willReturn(firstPageEmployees);
         Page<EmployeeDto> resultPage1 = employeeService.getFilteredEmployeesByName(1, 2, null, null, "Gabriel");
-        given(employeeRepository.findByNameContaining("Gabriel", secondPageOneRecordSortByNameAscSearchByName)).willReturn(secondPageEmployees);
+        given(employeeRepository.findByNameContaining("Gabriel", secondPageOneRecordSearchByName)).willReturn(secondPageEmployees);
         Page<EmployeeDto> resultPage2 = employeeService.getFilteredEmployeesByName(2, 2, null, null, "Gabriel");
 
         assertEquals(firstPageEmployeeDtosContent, resultPage1.getContent());
