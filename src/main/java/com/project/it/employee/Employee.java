@@ -9,6 +9,7 @@ import com.project.it.person.Person;
 import com.project.it.studies.Studies;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -40,6 +41,9 @@ public class Employee extends Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employeeId;
+
+    @Embedded
+    private Person person;
 
     @Enumerated(EnumType.STRING)
     private JobType jobType;

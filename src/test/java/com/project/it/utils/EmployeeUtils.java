@@ -6,7 +6,6 @@ import com.project.it.employee.enums.JobType;
 import com.project.it.employee.enums.Position;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
