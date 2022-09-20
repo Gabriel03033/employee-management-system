@@ -3,11 +3,11 @@ package com.project.it.person;
 import java.time.LocalDate;
 import javax.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @MappedSuperclass
 public class PersonDto {
 

@@ -8,6 +8,7 @@ import com.project.it.studies.StudiesRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
@@ -33,6 +35,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(!employees.isEmpty()) {
             employeeDtos = modelMapper.map(employees, new TypeToken<List<EmployeeDto>>() {}.getType());
         }
+        log.info("employees list: {}", employees);
+        log.info("employee dtos list: {}", employeeDtos);
         return employeeDtos;
     }
 
@@ -40,6 +44,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("No employee found with id: " + employeeId));
         EmployeeDto employeeDto = modelMapper.map(employee, EmployeeDto.class);
+        log.info("employee: {}", employee);
+        log.info("employeeDto: {}", employeeDto);
         return employeeDto;
     }
 
@@ -48,6 +54,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = modelMapper.map(employeeDto, new TypeToken<Employee>() {}.getType());
         Employee savedEmployee = employeeRepository.save(employee);
         EmployeeDto savedEmployeeDto = modelMapper.map(savedEmployee, EmployeeDto.class);
+        log.info("savedEmployee: {}", savedEmployee);
+        log.info("savedEmployeeDto: {}", savedEmployeeDto);
         return savedEmployeeDto;
     }
 
