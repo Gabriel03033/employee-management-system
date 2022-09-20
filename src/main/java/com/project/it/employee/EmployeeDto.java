@@ -4,24 +4,34 @@ import com.project.it.employee.enums.Grade;
 import com.project.it.employee.enums.JobType;
 import com.project.it.employee.enums.Position;
 import com.project.it.experience.Experience;
-import com.project.it.person.PersonDto;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
+import org.springframework.format.annotation.DateTimeFormat;
 
-@Getter
-@Setter
-@ToString
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
-public class EmployeeDto extends PersonDto {
+@Builder
+public class EmployeeDto {
 
     private Long employeeId;
+
+    private String name;
+
+    private String email;
+
+    private String password;
+
+    private String mobile;
+
+    private String address;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthday;
 
     private JobType jobType;
 
