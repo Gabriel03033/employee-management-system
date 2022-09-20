@@ -1,6 +1,5 @@
 package com.project.it.employee;
 
-import com.project.it.dto.EmployeeDto;
 import com.project.it.exception.ResourceNotFoundException;
 import com.project.it.mentor.Mentor;
 import com.project.it.mentor.MentorRepository;

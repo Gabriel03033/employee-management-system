@@ -1,7 +1,6 @@
 package com.project.it.employee;
 
-import com.project.it.dto.EmployeeDto;
-import com.project.it.dto.SearchDto;
+import com.project.it.utils.SearchDto;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.project.it.user;
 
+import com.project.it.person.Person;
 import com.project.it.role.Role;
-import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,16 +25,12 @@ import lombok.ToString;
 @Builder
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends Person {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-    private String name;
-    private String email;
-    private String password;
-    private String mobile;
-    private String address;
-    private LocalDate birthday;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -44,17 +40,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId.equals(user.userId) &&
-                name.equals(user.name) &&
-                email.equals(user.email) &&
-                password.equals(user.password) &&
-                mobile.equals(user.mobile) &&
-                address.equals(user.address) &&
-                birthday.equals(user.birthday);
+        return userId.equals(user.userId) && role.equals(user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, name, email, password, mobile, address, birthday);
+        return Objects.hash(userId, role);
     }
 }
