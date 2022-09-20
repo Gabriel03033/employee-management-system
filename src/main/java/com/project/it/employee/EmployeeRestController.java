@@ -1,6 +1,5 @@
 package com.project.it.employee;
 
-import com.project.it.dto.EmployeeDto;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -51,12 +50,15 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<EmployeeDto>> getEmployeesPerPage(@RequestParam int pageSize, @RequestParam int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection) {
+    public ResponseEntity<Page<EmployeeDto>> getEmployeesPerPage(@RequestParam int pageSize, @RequestParam int pageNumber,
+                                                                 @RequestParam String sortField, @RequestParam String sortDirection) {
         return new ResponseEntity<>(employeeService.getEmployeesPerPage(pageNumber, pageSize, sortField, sortDirection), HttpStatus.OK);
     }
 
     @GetMapping("/search/page")
-    public ResponseEntity<Page<EmployeeDto>> getFilteredEmployeesByName(@RequestParam int pageSize, @RequestParam int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection, @RequestParam String searchedName) {
+    public ResponseEntity<Page<EmployeeDto>> getFilteredEmployeesByName(@RequestParam int pageSize, @RequestParam int pageNumber,
+                                                                        @RequestParam String sortField, @RequestParam String sortDirection,
+                                                                        @RequestParam String searchedName) {
         return new ResponseEntity<>(employeeService.getFilteredEmployeesByName(pageNumber, pageSize, sortField, sortDirection, searchedName), HttpStatus.OK);
     }
 }

@@ -37,28 +37,41 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "employees")
 public class Employee {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employeeId;
+
     private String name;
+
     private String email;
+
     private String password;
+
     private String mobile;
+
     private String address;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
+
     @Enumerated(EnumType.STRING)
     private JobType jobType;
+
     @Enumerated(EnumType.STRING)
     private Position position;
+
     @Enumerated(EnumType.STRING)
     private Grade grade;
+
     @ManyToOne
     @JoinColumn(name = "mentor_id")
     private Mentor mentor;
+
     @ManyToOne
     @JoinColumn(name = "studies_id")
     private Studies studies;
+
     @ManyToMany
     @JoinTable(
             name = "employees_experiences",

@@ -26,15 +26,23 @@ import lombok.ToString;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+
     private String name;
+
     private String email;
+
     private String password;
+
     private String mobile;
+
     private String address;
+
     private LocalDate birthday;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

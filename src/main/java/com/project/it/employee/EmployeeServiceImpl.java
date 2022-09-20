@@ -1,6 +1,5 @@
 package com.project.it.employee;
 
-import com.project.it.dto.EmployeeDto;
 import com.project.it.exception.ResourceNotFoundException;
 import com.project.it.mentor.Mentor;
 import com.project.it.mentor.MentorRepository;
@@ -40,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("No employee found with id: " + employeeId));
-        EmployeeDto employeeDto = modelMapper.map(employee, new TypeToken<EmployeeDto>() {}.getType());
+        EmployeeDto employeeDto = modelMapper.map(employee, EmployeeDto.class);
         return employeeDto;
     }
 
@@ -48,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto addEmployee(EmployeeDto employeeDto) {
         Employee employee = modelMapper.map(employeeDto, new TypeToken<Employee>() {}.getType());
         Employee savedEmployee = employeeRepository.save(employee);
-        EmployeeDto savedEmployeeDto = modelMapper.map(savedEmployee, new TypeToken<EmployeeDto>() {}.getType());
+        EmployeeDto savedEmployeeDto = modelMapper.map(savedEmployee, EmployeeDto.class);
         return savedEmployeeDto;
     }
 
@@ -76,13 +75,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setExperiences(employeeDto.getExperiences());
 
         Employee updatedEmployee = employeeRepository.save(employee);
-        EmployeeDto updatedEmployeeDto = modelMapper.map(updatedEmployee, new TypeToken<EmployeeDto>() {}.getType());
+        EmployeeDto updatedEmployeeDto = modelMapper.map(updatedEmployee, EmployeeDto.class);
         return updatedEmployeeDto;
     }
 
     @Override
     public void deleteEmployeeById(Long employeeId) {
-        employeeRepository.deleteById(employeeId);
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("No employee found with id: " + employeeId));
+        employeeRepository.delete(employee);
     }
 
     @Override

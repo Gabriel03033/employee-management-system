@@ -23,16 +23,25 @@ import lombok.ToString;
 @Entity
 @Table(name = "mentors")
 public class Mentor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mentorId;
+
     private String name;
+
     private String email;
+
     private String password;
+
     private String mobile;
+
     private String address;
+
     private LocalDate birthday;
+
     private Boolean available;
+
     private Integer numberOfEmployees;
 
     @Override

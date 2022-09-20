@@ -26,15 +26,22 @@ import lombok.ToString;
 @Entity
 @Table(name = "experiences")
 public class Experience {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long experienceId;
+
     private String title;
+
     private String organization;
+
     private String description;
+
     @Enumerated(EnumType.STRING)
     private ExperienceType experienceType;
+
     private LocalDate startedAt;
+
     private LocalDate finishedAt;
 
     @Override

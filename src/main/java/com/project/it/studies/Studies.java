@@ -22,11 +22,15 @@ import lombok.ToString;
 @Entity
 @Table(name = "studies")
 public class Studies {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studiesId;
+
     private String university;
+
     private String faculty;
+
     private String major;
 
     @Override
